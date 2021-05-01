@@ -1,0 +1,3 @@
+Localisation/English/Error.txt
+Localisation/English/Front_page.txt
+Localisation/English/Menu.txt

@@ -1,0 +1,15 @@
+Config.txt
+Files/Docs/
+Files/Images/
+Files/Tables/
+Files/DocsWithTables/
+Config/AllDocs.txt
+Config/AllDocsWithTables.txt
+Config/AllImages.txt
+Config/AllTables.txt
+Localisation/English/English.txt
+Localisation/Russian/Russian.txt
+pause
+cls
+Error
+color

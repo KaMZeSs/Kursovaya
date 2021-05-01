@@ -1,0 +1,5 @@
+Error one of the files was changed
+Configuration file not open
+The config file has been changed
+Some documents, tables, pictures have been removed.
+Error, the file cannot be created.
