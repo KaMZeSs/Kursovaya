@@ -2,11 +2,11 @@ Specify document color:
 Enter the number of columns in the table: 
 Enter the font size: 
 List of Documents
-Document №
+Document No.
 List of Images
-Image №
+Image No.
 List of Tables
-Table №
+Table No.
 File name: 
 File creator name: 
 File creation date: 
@@ -16,3 +16,4 @@ Color:
 Height: 
 Width: 
 Number of columns: 
+Enter the document number, or image to view it: 

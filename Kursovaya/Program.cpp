@@ -99,6 +99,7 @@ void Program::operator ++ (int)
 	Errors.clear();
 	Front_page.clear();
 	Menu.clear();
+	Other.clear();
 
 	local = Config[changer];
 	local.erase(0, 21);
@@ -145,7 +146,7 @@ void Program::operator ++ (int)
 
 	Doc.open(ListLocalisation[3].c_str());					//Другое
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 18; i++)
+	for (int i = 0; !Doc.eof() && i < 19; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -153,6 +154,10 @@ void Program::operator ++ (int)
 	}
 
 	Doc.close();
+}
+
+void ListAll()
+{
 }
 
 Program& operator << (Program& Pr, char a)
@@ -174,7 +179,7 @@ void Program::AddFiles()
 		Image Img;
 		File* F;
 		system("cls");
-		ViewMenu(8, 10);
+		ViewMenu(9, 11);
 		cout << GetMenu(13) << endl << GetMenu(16) << endl;
 		key = _getch();
 		if (key == 9) (*this)++;
@@ -190,16 +195,16 @@ void Program::AddFiles()
 
 			if (key == '1')
 			{
-				cout << Other[0] << endl;
+				cout << Other[0];
 				string str;
 				cin >> str;
 				Doc.SetColor(str);
 				int num;
-				cout << Other[2] << endl;
+				cout << Other[2];
 				cin >> num;
 				while (!cin.good() || num <= 0)
 				{
-					cout << Errors[5] << endl;
+					cout << Errors[5];
 					cin.clear();
 					cin.ignore(1000, '\n');
 					cin >> num;
@@ -208,6 +213,7 @@ void Program::AddFiles()
 			}
 
 			CreateDocImg(F);
+			if (key == '2') Img.SetDimensions();
 			if (F->Update(Config[key - 48]))
 			{
 				if (key == '1') Documents.push_back(Doc);
@@ -228,7 +234,7 @@ void Program::AddFiles()
 			cin >> num;
 			while (!cin.good() || num <= 0)
 			{
-				cout << Errors[5] << endl;
+				cout << Errors[5];
 				cin.clear();
 				cin.ignore(1000,'\n');
 				cin >> num;
@@ -311,4 +317,48 @@ void Program::ListTables()
 		cout << Other[12] << Tables[i].GetSize() << endl;
 		cout << Other[17] << Tables[i].GetNumOfColumns() << endl;
 	}
+}
+
+void Program::ReadDocImg()
+{
+	File* F;
+	
+	int counter = 0;
+	cout << Other[3] << endl;
+	for (int i = 0, max = Documents.size(); i < max; i++, counter++)
+	{
+		cout << endl << Other[4] << counter << endl;
+		cout << Other[9] << Documents[i].GetName() << endl;
+		cout << Other[10] << Documents[i].GetOwner() << endl;
+		cout << Other[11] << Documents[i].GetDate() << endl;
+		cout << Other[12] << Documents[i].GetFileSize() << endl;
+		cout << Other[13] << Documents[i].GetFont() << endl;
+		cout << Other[14] << Documents[i].GetColor() << endl;
+	}
+	cout << Other[5] << endl;
+	for (int i = 0, max = Images.size(); i < max; i++, counter++)
+	{
+		cout << endl << Other[6] << counter << endl;
+		cout << Other[9] << Images[i].GetName() << endl;
+		cout << Other[10] << Images[i].GetOwner() << endl;
+		cout << Other[11] << Images[i].GetDate() << endl;
+		cout << Other[12] << Images[i].GetFileSize() << endl;
+		cout << Other[15] << Images[i].GetHeight() << endl;
+		cout << Other[16] << Images[i].GetWidth() << endl;
+	}
+
+	int num;
+	cout << Other[18];
+	cin >> num;
+	while (!cin.good() || (num <= 0 && num >= Documents.size() + Images.size()))
+	{
+		cout << Errors[5];
+		cin.clear();
+		cin.ignore(1000, '\n');
+		cin >> num;
+	}
+	if (num < Documents.size()) F = &Documents[num];
+	else F = &Images[num];
+	system("cls");
+	F->Read();
 }

@@ -34,6 +34,7 @@ public:
 	void ListDocs();
 	void ListImages();
 	void ListTables();
+	void ReadDocImg();
 	void SetUser();
 	string GetUser();
 	vector<string> GetListColors();

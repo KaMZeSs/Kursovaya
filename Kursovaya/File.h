@@ -30,5 +30,4 @@ public:
 	void SetDate();
 	void SetOwner(string);
 	int GetFileSize();
-	virtual void operator ++ () = 0; //Read ini file
 };
