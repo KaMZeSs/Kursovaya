@@ -12,18 +12,13 @@ Image::~Image()
 
 }
 
-void Image::SetDimensions()
+bool Image::SetDimensions()
 {
 	int w = 0, h = 0;
 	string Path;
 	ifstream Doc(Path);
 	string str;
-	if (!Doc.is_open())
-	{
-		cout << "Файл не открыт" << endl;
-		system("pause");
-		exit(-1);
-	}
+	if (!Doc.is_open()) return false;
 	while (!Doc.eof())
 	{
 		getline(Doc, str);
@@ -31,6 +26,7 @@ void Image::SetDimensions()
 		if (temp > w) w = temp;
 		h++;
 	}
+	return true;
 }
 
 int Image::GetWidth()
@@ -53,8 +49,13 @@ vector<string> Image::Read()
 		string str = this->Content[i];
 		str.insert(0, "|");
 		v.push_back(str);
-		int temp = v[i].length();
+		int temp = str.length();
 		temp > maxlength ? maxlength = temp : temp = 0;
+	}
+	for (int i = 0; i < v.size(); i++)
+	{
+		v[i].resize(maxlength, 32);
+		v[i].push_back(124);
 	}
 	string str;
 	str.resize(maxlength + 2, 95);

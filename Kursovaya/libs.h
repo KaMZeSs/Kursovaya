@@ -7,5 +7,6 @@
 #include <vector>
 #include <algorithm>
 #include <ctime>
+#include <clocale>
 
 using namespace std;

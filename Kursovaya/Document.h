@@ -17,7 +17,6 @@ public:
 	string GetColor();
 	int GetColorInt();
 	int GetFont();
-	int GetCounter();
 	void SetTablePos(int);
 	int GetTablePos();
 	bool SetFontSize(int);

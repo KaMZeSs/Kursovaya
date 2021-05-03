@@ -20,7 +20,7 @@ Document::Document(string TOwner, int Font, string Color, string TName)
 	FontColor = Color;
 	Name = TName;
 	FontSize = Font;
-	Size = 0;
+	File::Size = 0;
 	time_t rawtime;
 	time(&rawtime);
 	Date = ctime(&rawtime);
@@ -58,12 +58,6 @@ int Document::GetColorInt()
 int Document::GetFont()
 {
 	return FontSize;
-}
-
-int Document::GetCounter()
-{
-	//return counter;
-	return 1;
 }
 
 bool operator + (Document& Doc1, Document& Doc2)

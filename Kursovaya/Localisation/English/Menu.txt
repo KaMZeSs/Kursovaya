@@ -16,5 +16,5 @@ Press Enter to continue
 To exit the program press ESC
 Press ESC to return to the previous page
 Click the S to save user data
-Enter the file name:
-Enter your name:
+Enter the file name: 
+Enter your name: 

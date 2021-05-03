@@ -6,17 +6,24 @@ class Table
 private:
 	string TName;
 protected:
-	void AddLine();
-	int NumOfLines;
 	int NumOfColumns;
-	vector<string> cont;
+	int Size;
+	vector<int> MaxInCol;
+	vector<string> TableContent;
 public:
-	Table() {};
-	Table(int, int) {};
-	~Table() {};
+	Table();
+	Table(int);
+	~Table();
 	string GetTName();
-	void CreateTable();
-	void ReadTable();
-	void ChangeTable();
-	void operator += (vector<string>); //AddLine
+	void SetTName(string);
+	void Work();
+	void ReadTable(bool key = false);
+	bool Update(string);
+	bool ReadFromFile(string);
+	void SetMax();
+	int GetSize();
+	void SetSize(int);
+	int GetNumOfColumns();
+	string GetLine(int);
+	void operator -- (int);
 };

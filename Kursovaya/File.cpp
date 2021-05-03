@@ -19,19 +19,6 @@ void File::Write(string buffer)
 	Content.push_back(buffer);
 }
 
-/*void File::Read()
-{
-	ifstream Doc(Path);
-	string str;
-	if(!Doc.is_open())
-	{
-		cout << "Файл не открыт" << endl;
-		system("pause");
-		exit(-1);
-	}
-	getline(Doc, str, '\0');
-}*/
-
 bool File::Update(string Path)
 {
 	int length = 0;
@@ -39,7 +26,7 @@ bool File::Update(string Path)
 	str += Name;
 	ofstream Doc(str);
 	string s;
-	if (!Doc.is_open()) exit(1);
+	if (!Doc.is_open()) return false;
 	for (int i = 0, max = Content.size(); i < max; i++)
 	{
 		Doc << Content[i] << endl;

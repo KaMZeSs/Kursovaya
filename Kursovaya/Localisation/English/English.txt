@@ -1,3 +1,4 @@
 Localisation/English/Error.txt
 Localisation/English/Front_page.txt
 Localisation/English/Menu.txt
+Localisation/Russian/Other.txt

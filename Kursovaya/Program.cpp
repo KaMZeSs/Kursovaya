@@ -10,7 +10,6 @@ void Program::Error()
 
 Program::Program()
 {
-	//	counter++;
 	ifstream Doc("Config/MainData.txt");
 	string str;
 
@@ -43,7 +42,7 @@ Program::Program()
 
 Program::~Program()
 {
-	//	counter--;
+
 }
 
 string Program::GetConfig(int num)
@@ -106,7 +105,7 @@ void Program::operator ++ (int)
 	Doc.close();
 	Doc.open(ListLocalisation[0].c_str());					//Ошибки
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 5; i++)
+	for (int i = 0; !Doc.eof() && i < 6; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -131,6 +130,16 @@ void Program::operator ++ (int)
 		if (str.length() == 0) Error();
 		Menu.push_back(str);
 	}
+	Doc.close();
+
+	Doc.open(ListLocalisation[3].c_str());					//Другое
+	if (!Doc.is_open()) Error();
+	for (int i = 0; !Doc.eof() && i < 3; i++)
+	{
+		getline(Doc, str);
+		if (str.length() == 0) Error();
+		Other.push_back(str);
+	}
 
 	Doc.close();
 }
@@ -148,35 +157,76 @@ void Program::AddFiles()
 {
 	char key = 0;
 	string path;
-	Document Doc;
-	Image Img;
-	Table Tab;
-	File* F;
-	while (key != '1' && key != '2' && key != '3' && key != 27)
+	while (!(key >= '1' && key <= '3'))
 	{
+		Document Doc;
+		Image Img;
+		File* F;
 		system("cls");
 		ViewMenu(8, 10);
 		cout << GetMenu(13) << endl << GetMenu(16) << endl;
 		key = _getch();
+		if (key == 9) (*this)++;
 		if (key == 27) return;
 		if (key == '1' || key == '2')
 		{
+			if (key == '1')	F = &Doc;
+			else F = &Img;
+
+			string str;
+			cout << Menu[18];
+			cin >> str;
+			F->SetName(str);
+
 			if (key == '1')
 			{
-				F = &Doc;
-				cout << "123 ";
+				cout << Other[0] << endl;
 				string str;
 				cin >> str;
 				Doc.SetColor(str);
-			}//Тут спросить про цвет и ввести его
-			else F = &Img;
+				int num;
+				cout << Other[2] << endl;
+				cin >> num;
+				while (!cin.good())
+				{
+					cout << Errors[5] << endl;
+					cin.clear();
+					cin.ignore(1000, '\n');
+					cin >> num;
+				}
+				Doc.SetFontSize(num);
+			}
+
 			CreateDocImg(F);
-			F->Update(Config[key - 48]);
-			if (key == '1') Documents.push_back(Doc);
-			else Images.push_back(Img);
+			if (F->Update(Config[key - 48]))
+			{
+				if (key == '1') Documents.push_back(Doc);
+				else Images.push_back(Img);
+			}
+			else
+			{
+				cout << Errors[]; // Не удалось создать документ
+			}
 		}
 		else if (key == '3')
 		{
+			string str;
+			cout << Menu[18];
+			cin >> str;
+			int num;
+			cout << Other[1];
+			cin >> num;
+			while (!cin.good())
+			{
+				cout << Errors[5] << endl;
+				cin.clear();
+				cin.ignore(1000,'\n');
+				cin >> num;
+			}
+			Table Tab(num);
+			Tab.SetTName(str);
+			Tab.Work();
+			Tab.Update(Config[key-48]);
 			Tables.push_back(Tab);
 		}
 	}
@@ -194,22 +244,18 @@ string Program::GetUser()
 
 void Program::CreateDocImg(File* Doc)
 {
-	string str;
-	cout << this->GetMenu(18);
-	cin >> str;
-	Doc->SetName(str);
 	Doc->SetDate();
 	Doc->SetOwner(User);
 	Doc->Write();
 }
 
-void Program::CreateDoc(Document& Doc)
+/*void Program::CreateDoc(Document& Doc)
 {
 	string str;
 	cout << this->GetMenu(18);
 	cin >> str;
 	Doc.SetName(str);
-	cout << "Цвет ";
+	cout << Other[0];
 	cin >> str;
 	Doc.SetColor(str);
 	bool key = true;
@@ -217,7 +263,7 @@ void Program::CreateDoc(Document& Doc)
 	{
 		int num;
 		cin >> num;
-		if (cin.good())
+		if (!cin.good())
 			key = !Doc.SetFontSize(num);
 		else
 			cout << "Ошибка" << endl;
@@ -238,4 +284,4 @@ void Program::CreateImg(Image& Img)
 	Img.SetOwner(User);
 	Img.Write();
 	Img.SetDimensions();
-}
+}*/
