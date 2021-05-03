@@ -136,7 +136,7 @@ void Program::operator ++ (int)
 	Doc.close();
 	Doc.open(ListLocalisation[2].c_str());					//Меню
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 25; i++)
+	for (int i = 0; !Doc.eof() && i < 28; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -146,7 +146,7 @@ void Program::operator ++ (int)
 
 	Doc.open(ListLocalisation[3].c_str());					//Другое
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 21; i++)
+	for (int i = 0; !Doc.eof() && i < 22; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -154,6 +154,24 @@ void Program::operator ++ (int)
 	}
 
 	Doc.close();
+}
+
+ostream& operator << (ostream & out, Program & App)
+{
+	char key = 0;
+	while (key != 27)
+	{
+		system("cls");
+		App.ListDocs();
+		cout << endl << endl;
+		App.ListImages();
+		cout << endl << endl;
+		App.ListTables();
+		cout << endl << endl << App.GetMenu(13) << endl << App.GetMenu(16) << endl;
+		key = _getch();
+		if (key == 9) App++;
+	}
+	return out;
 }
 
 Program& operator << (Program& Pr, char a)
@@ -180,6 +198,7 @@ void Program::AddFiles()
 		key = _getch();
 		string str;
 		int num;
+		bool exist = false;
 		switch (key)
 		{
 		case 9:
@@ -188,8 +207,20 @@ void Program::AddFiles()
 		case 27: 
 			return;
 		case '1':
-			cout << Menu[18];
-			cin >> str;
+			do
+			{
+				exist = false;
+				cout << Menu[18];
+				cin >> str;
+				for (int i = 0; i < Documents.size(); i++)
+					if (Documents[i].GetName() == str)
+						exist = true;
+				if (exist)
+				{
+					cout << Other[21] << endl;
+				}
+			} 
+			while (exist);
 			Doc.SetName(str);
 			cout << Other[0];
 			cin >> str;
@@ -217,8 +248,20 @@ void Program::AddFiles()
 			}
 			break;
 		case '2':
-			cout << Menu[18];
-			cin >> str;
+			do
+			{
+				exist = false;
+				cout << Menu[18];
+				cin >> str;
+				for (int i = 0; i < Images.size(); i++)
+					if (Images[i].GetName() == str)
+						exist = true;
+				if (exist)
+				{
+					cout << Other[21] << endl;
+				}
+			}
+			while (exist);
 			Img.SetName(str);
 			Img.SetDate();
 			Img.SetOwner(User);
@@ -234,8 +277,20 @@ void Program::AddFiles()
 			}
 			break;
 		case '3':
-			cout << Menu[18];
-			cin >> str;
+			do
+			{
+				exist = false;
+				cout << Menu[18];
+				cin >> str;
+				for (int i = 0; i < Tables.size(); i++)
+					if (Tables[i].GetTName() == str)
+						exist = true;
+				if (exist)
+				{
+					cout << Other[21] << endl;
+				}
+			} 
+			while (exist);
 			cout << Other[1];
 			cin >> num;
 			while (!cin.good() || num <= 0)
@@ -266,6 +321,7 @@ void Program::SetUser()
 	cout << this->GetMenu(19);
 	cin >> User;
 }
+
 string Program::GetUser()
 {
 	return User;
@@ -506,5 +562,107 @@ void Program::RemoveFile()
 			break;
 		}
 		remove(str.c_str());
+	}
+}
+
+void Program::OpenFile()
+{
+	int max = 0;
+	for (char key = 0; key != 27;)
+	{
+		system("cls");
+		cout << Menu[25] << endl << Menu[26] << endl << Menu[27] << endl << endl;
+		cout << Menu[13] << endl << Menu[16] << endl;
+
+		key = _getch();
+		switch (key)
+		{
+		case 9:
+			(*this)++;
+			continue;
+		case 27:
+			return;
+		case '1':
+			if (Documents.empty())
+			{
+				cout << Other[20] << endl;
+				cout << Menu[20] << endl;
+				_getch();
+				continue;
+			}
+			else
+			{
+				cout << Other[3] << endl;
+				max = Documents.size();
+				for (int i = 0; i < max; i++)
+				{
+					cout << endl << Other[4] << i << endl;
+					cout << Other[9] << Documents[i].GetName() << endl;
+				}
+			}
+			break;
+		case '2':
+			if (Images.empty())
+			{
+				cout << Other[20] << endl;
+				cout << Menu[20] << endl;
+				_getch();
+				continue;
+			}
+			else
+			{
+				cout << Other[5] << endl;
+				max = Images.size();
+				for (int i = 0; i < max; i++)
+				{
+					cout << endl << Other[6] << i << endl;
+					cout << Other[9] << Images[i].GetName() << endl;
+				}
+			}
+			break;
+		case '3':
+			if (Tables.empty())
+			{
+				cout << Other[20] << endl;
+				cout << Menu[20] << endl;
+				_getch();
+				continue;
+			}
+			else
+			{
+				max = Tables.size();
+				cout << Other[7] << endl;
+				for (int i = 0; i < max; i++)
+				{
+					cout << endl << Other[8] << i << endl;
+					cout << Other[9] << Tables[i].GetTName() << endl;
+				}
+			}
+			break;
+		}
+
+		int num;
+		cout << Other[19];
+		cin >> num;
+		while (!cin.good() || !(num >= 0 && num < max))
+		{
+			cout << Errors[5];
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cin >> num;
+		}
+
+		switch (key)
+		{
+		case '1':
+			Documents[num].Write();
+			break;
+		case '2':
+			Images[num].Write();
+			break;
+		case '3':
+			Tables[num].Work();
+			break;
+		}
 	}
 }

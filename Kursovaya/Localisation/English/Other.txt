@@ -19,3 +19,4 @@ Number of columns:
 Press Enter to enter the document number, or image to view it.
 Number of file: 
 There are no files.
+The file is already exist.

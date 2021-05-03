@@ -23,3 +23,6 @@ Press any button to continue.
 1. Remove document.
 2. Remove image.
 3. Remove table.
+1. Open document.
+2. Open image.
+3. Open table.

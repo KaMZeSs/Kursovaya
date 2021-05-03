@@ -35,9 +35,11 @@ public:
 	void ListTables();
 	void ReadDocImg();
 	void RemoveFile();
+	void OpenFile();
 	string GetUser();
 	vector<string> GetListColors();
 	void operator ++ (int);
+	friend ostream& operator << (ostream &, Program &);
 };
 
 Program& operator << (Program&, char); //смена цвета

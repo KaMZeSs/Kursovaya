@@ -32,9 +32,10 @@ int main()
 			App.AddFiles();
 			break;
 		case '2':
+			App.OpenFile();
 			break;
 		case '3':
-			ListAll(App);
+			cout << App;
 			break;
 		case '4':
 			App.ReadDocImg();
@@ -55,21 +56,4 @@ int main()
 	}
 	system("pause");
 	return 0;
-}
-
-void ListAll(Program & App)
-{
-	char key = 0;
-	while (key != 27)
-	{
-		system("cls");
-		App.ListDocs();
-		cout << endl;
-		App.ListImages();
-		cout << endl;
-		App.ListTables();
-		cout << endl << endl << App.GetMenu(13) << endl << App.GetMenu(16) << endl;
-		key = _getch();
-		if (key == 9) App++;
-	}
 }
