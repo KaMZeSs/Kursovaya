@@ -146,7 +146,7 @@ void Program::operator ++ (int)
 
 	Doc.open(ListLocalisation[3].c_str());					//Другое
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 19; i++)
+	for (int i = 0; !Doc.eof() && i < 21; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -177,56 +177,67 @@ void Program::AddFiles()
 	{
 		Document Doc;
 		Image Img;
-		File* F;
+		Table Tab;
 		system("cls");
 		ViewMenu(9, 11);
 		cout << GetMenu(13) << endl << GetMenu(16) << endl;
 		key = _getch();
-		if (key == 9) (*this)++;
-		if (key == 27) return;
-		if (key == '1' || key == '2')
+		string str;
+		switch (key)
 		{
-			if (key == '1')	F = &Doc;
-			else F = &Img;
-			string str;
+		case 9:
+			(*this)++;
+			break;
+		case 27: 
+			return;
+		case '1':
 			cout << Menu[18];
 			cin >> str;
-			F->SetName(str);
-
-			if (key == '1')
+			Doc.SetName(str);
+			cout << Other[0];
+			cin >> str;
+			Doc.SetColor(str);
+			int num;
+			cout << Other[2];
+			cin >> num;
+			while (!cin.good() || num <= 0)
 			{
-				cout << Other[0];
-				string str;
-				cin >> str;
-				Doc.SetColor(str);
-				int num;
-				cout << Other[2];
+				cout << Errors[5];
+				cin.clear();
+				cin.ignore(1000, '\n');
 				cin >> num;
-				while (!cin.good() || num <= 0)
-				{
-					cout << Errors[5];
-					cin.clear();
-					cin.ignore(1000, '\n');
-					cin >> num;
-				}
-				Doc.SetFontSize(num);
 			}
-
-			CreateDocImg(F);
-			if (key == '2') Img.SetDimensions();
-			if (F->Update(Config[key - 48]))
+			Doc.SetFontSize(num);
+			Doc.SetDate();
+			Doc.SetOwner(User);
+			Doc.Write();
+			if (Doc.File::Update(Config[key - 48]))
 			{
-				if (key == '1') Documents.push_back(Doc);
-				else Images.push_back(Img);
+				Documents.push_back(Doc);
 			}
 			else
 			{
 				cout << Errors[6] << endl; // Не удалось создать документ
 			}
-		}
-		if (key == '3')
-		{
-			string str;
+			break;
+		case '2':
+			cout << Menu[18];
+			cin >> str;
+			Img.SetName(str);
+			Img.SetDate();
+			Img.SetOwner(User);
+			Img.Write();
+			Img.SetDimensions();
+			if (Img.Update(Config[key - 48]))
+			{
+				Images.push_back(Img);
+			}
+			else
+			{
+				cout << Errors[6] << endl; // Не удалось создать документ
+			}
+			break;
+		case '3':
 			cout << Menu[18];
 			cin >> str;
 			int num;
@@ -236,7 +247,7 @@ void Program::AddFiles()
 			{
 				cout << Errors[5];
 				cin.clear();
-				cin.ignore(1000,'\n');
+				cin.ignore(1000, '\n');
 				cin >> num;
 			}
 			Table Tab(num);
@@ -250,6 +261,7 @@ void Program::AddFiles()
 			{
 				cout << Errors[6] << endl;
 			}
+			break;
 		}
 	}
 }
@@ -267,13 +279,6 @@ string Program::GetUser()
 vector<string> Program::GetListColors()
 {
 	return Colors;
-}
-
-void Program::CreateDocImg(File* Doc)
-{
-	Doc->SetDate();
-	Doc->SetOwner(User);
-	Doc->Write();
 }
 
 void Program::ListDocs()
@@ -322,43 +327,84 @@ void Program::ListTables()
 void Program::ReadDocImg()
 {
 	File* F;
-	
-	int counter = 0;
-	cout << Other[3] << endl;
-	for (int i = 0, max = Documents.size(); i < max; i++, counter++)
+	for (char key = 0; key != 27;)
 	{
-		cout << endl << Other[4] << counter << endl;
-		cout << Other[9] << Documents[i].GetName() << endl;
-		cout << Other[10] << Documents[i].GetOwner() << endl;
-		cout << Other[11] << Documents[i].GetDate() << endl;
-		cout << Other[12] << Documents[i].GetFileSize() << endl;
-		cout << Other[13] << Documents[i].GetFont() << endl;
-		cout << Other[14] << Documents[i].GetColor() << endl;
+		system("cls");
+		int counter = 0;
+		cout << Other[3] << endl;
+		for (int i = 0, max = Documents.size(); i < max; i++, counter++)
+		{
+			cout << endl << Other[4] << counter << endl;
+			cout << Other[9] << Documents[i].GetName() << endl;
+			cout << Other[10] << Documents[i].GetOwner() << endl;
+			cout << Other[11] << Documents[i].GetDate() << endl;
+			cout << Other[12] << Documents[i].GetFileSize() << endl;
+			cout << Other[13] << Documents[i].GetFont() << endl;
+			cout << Other[14] << Documents[i].GetColor() << endl;
+		}
+		cout << Other[5] << endl;
+		for (int i = 0, max = Images.size(); i < max; i++, counter++)
+		{
+			cout << endl << Other[6] << counter << endl;
+			cout << Other[9] << Images[i].GetName() << endl;
+			cout << Other[10] << Images[i].GetOwner() << endl;
+			cout << Other[11] << Images[i].GetDate() << endl;
+			cout << Other[12] << Images[i].GetFileSize() << endl;
+			cout << Other[15] << Images[i].GetHeight() << endl;
+			cout << Other[16] << Images[i].GetWidth() << endl;
+		}
+		
+		cout << endl << Other[18] << endl;
+		cout << GetMenu(13) << endl << GetMenu(16) << endl;
+		key = _getch();
+		switch (key)
+		{
+		case 9:
+			(*this)++;
+			continue;
+		case 13:
+			if (Documents.empty() && Images.empty())
+			{
+				cout << endl << Other[20] << endl;
+				cout << Menu[20] << endl;
+				_getch();
+				break;
+			}
+			int NumOfFiles = 0;
+			if (Documents.empty())
+			{
+				NumOfFiles = Images.size();
+			}
+			else if (Images.empty())
+			{
+				NumOfFiles = Documents.size();
+			}
+			else
+			{
+				NumOfFiles = Documents.size() + Images.size();
+			}
+			int num;
+			cout << Other[19];
+			cin >> num;
+			while (!cin.good() || (num < 0 && num >= NumOfFiles))
+			{
+				cout << Errors[5];
+				cin.clear();
+				cin.ignore(1000, '\n');
+				cin >> num;
+			}
+			if (num < Documents.size()) F = &Documents[num];
+			else F = &Images[num];
+			do
+			{
+				system("cls");
+				vector<string> v = F->Read();
+				for (int i = 0, max = v.size(); i < max; i++) cout << v[i] << endl;
+				cout << endl << endl << Menu[14];
+				int key = _getch();
+			} 
+			while (key != 13);
+			break;
+		}
 	}
-	cout << Other[5] << endl;
-	for (int i = 0, max = Images.size(); i < max; i++, counter++)
-	{
-		cout << endl << Other[6] << counter << endl;
-		cout << Other[9] << Images[i].GetName() << endl;
-		cout << Other[10] << Images[i].GetOwner() << endl;
-		cout << Other[11] << Images[i].GetDate() << endl;
-		cout << Other[12] << Images[i].GetFileSize() << endl;
-		cout << Other[15] << Images[i].GetHeight() << endl;
-		cout << Other[16] << Images[i].GetWidth() << endl;
-	}
-
-	int num;
-	cout << Other[18];
-	cin >> num;
-	while (!cin.good() || (num <= 0 && num >= Documents.size() + Images.size()))
-	{
-		cout << Errors[5];
-		cin.clear();
-		cin.ignore(1000, '\n');
-		cin >> num;
-	}
-	if (num < Documents.size()) F = &Documents[num];
-	else F = &Images[num];
-	system("cls");
-	F->Read();
 }

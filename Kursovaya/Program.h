@@ -22,7 +22,6 @@ private:
 public:
 	Program();
 	~Program();
-	void ChangeColor(int);
 	string GetConfig(int);
 	void ViewMenu(int, int);
 	string GetMenu(int);
@@ -30,7 +29,6 @@ public:
 	void ShowTitle();
 	void Error();
 	void AddFiles();
-	void CreateDocImg(File*);
 	void ListDocs();
 	void ListImages();
 	void ListTables();

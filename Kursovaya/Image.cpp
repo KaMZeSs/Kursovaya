@@ -18,7 +18,7 @@ void Image::SetDimensions()
 	for (int i = 0; i < height; i++)
 	{
 		int temp = Content[i].length();
-		if (width > temp)
+		if (width < temp)
 		{
 			width = temp;
 		}
@@ -39,7 +39,6 @@ int Image::GetHeight()
 vector<string> Image::Read()
 {
 	vector<string> v;
-	char k = 95, l = 124;
 	int maxlength = 0;
 	for (int i = 0, max = this->Content.size(); i < max; i++)
 	{
@@ -55,7 +54,7 @@ vector<string> Image::Read()
 		v[i].push_back(124);
 	}
 	string str;
-	str.resize(maxlength + 2, 95);
+	str.resize(maxlength + 1, 45);
 	v.insert(v.begin(), str);
 	v.push_back(str);
 	return v;

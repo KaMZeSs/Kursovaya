@@ -16,4 +16,6 @@ Color:
 Height: 
 Width: 
 Number of columns: 
-Enter the document number, or image to view it: 
+Press Enter to enter the document number, or image to view it.
+Number of file: 
+There are no documents or files.

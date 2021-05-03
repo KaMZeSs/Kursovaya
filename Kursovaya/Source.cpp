@@ -38,6 +38,7 @@ int main()
 			ListAll(App);
 			break;
 		case '4':
+			App.ReadDocImg();
 			break;
 		case '5':
 			break;

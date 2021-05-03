@@ -21,6 +21,6 @@ public:
 	int GetTablePos();
 	bool SetFontSize(int);
 	virtual vector<string> Read();
-	virtual void operator ++ () {};
-	friend bool operator + (Document&, Document&);
+	friend bool operator + (Document&, Document&); // Оставить таблицу первого
+	friend bool operator << (Document&, Table&);
 };

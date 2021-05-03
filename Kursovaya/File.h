@@ -13,13 +13,6 @@ public:
 	File();
 	File(long Size, string Date, string Owner);
 	virtual vector<string> Read() = 0;
-	ostream& operator >> (ostream& out)
-	{
-		system("cls");
-		for (int i = 0, max = Content.size(); i < max; i++)
-			cout << Content[i] << endl;
-		return out;
-	}
 	void Write(string buffer);
 	void Write();
 	bool Update(string);
@@ -30,4 +23,5 @@ public:
 	void SetDate();
 	void SetOwner(string);
 	int GetFileSize();
+	virtual void operator --(int) = 0; // В доке - удалить строку, В карт - удалить строку и правый пиксель
 };
