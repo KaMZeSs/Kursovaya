@@ -7,7 +7,6 @@ void ListAll(Program & App);
 
 int main()
 {
-	//setlocale(LC_ALL, "Russian");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	Program App;
@@ -22,7 +21,7 @@ int main()
 	{
 		system("cls");
 		App.ViewMenu(1, 8);
-		cout << App.GetMenu(15) << endl << App.GetMenu(17) << endl;
+		cout << App.GetMenu(21) << endl << endl << App.GetMenu(15) << endl << App.GetMenu(17) << endl;
 		key = _getch();
 		switch (tolower(key))
 		{
@@ -41,6 +40,7 @@ int main()
 			App.ReadDocImg();
 			break;
 		case '5':
+			App.RemoveFile();
 			break;
 		case '6':
 			break;

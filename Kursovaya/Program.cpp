@@ -136,7 +136,7 @@ void Program::operator ++ (int)
 	Doc.close();
 	Doc.open(ListLocalisation[2].c_str());					//Μενώ
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 22; i++)
+	for (int i = 0; !Doc.eof() && i < 25; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -154,10 +154,6 @@ void Program::operator ++ (int)
 	}
 
 	Doc.close();
-}
-
-void ListAll()
-{
 }
 
 Program& operator << (Program& Pr, char a)
@@ -183,6 +179,7 @@ void Program::AddFiles()
 		cout << GetMenu(13) << endl << GetMenu(16) << endl;
 		key = _getch();
 		string str;
+		int num;
 		switch (key)
 		{
 		case 9:
@@ -197,7 +194,6 @@ void Program::AddFiles()
 			cout << Other[0];
 			cin >> str;
 			Doc.SetColor(str);
-			int num;
 			cout << Other[2];
 			cin >> num;
 			while (!cin.good() || num <= 0)
@@ -240,7 +236,6 @@ void Program::AddFiles()
 		case '3':
 			cout << Menu[18];
 			cin >> str;
-			int num;
 			cout << Other[1];
 			cin >> num;
 			while (!cin.good() || num <= 0)
@@ -289,11 +284,10 @@ void Program::ListDocs()
 		cout << endl << Other[4] << i << endl;
 		cout << Other[9] << Documents[i].GetName() << endl;
 		cout << Other[10] << Documents[i].GetOwner() << endl;
-		cout << Other[11] << Documents[i].GetDate() << endl;
+		cout << Other[11] << Documents[i].GetDate();
 		cout << Other[12] << Documents[i].GetFileSize() << endl;
 		cout << Other[13] << Documents[i].GetFont() << endl;
 		cout << Other[14] << Documents[i].GetColor() << endl;
-
 	}
 }
 
@@ -305,7 +299,7 @@ void Program::ListImages()
 		cout << endl << Other[6] << i << endl;
 		cout << Other[9] << Images[i].GetName() << endl;
 		cout << Other[10] << Images[i].GetOwner() << endl;
-		cout << Other[11] << Images[i].GetDate() << endl;
+		cout << Other[11] << Images[i].GetDate();
 		cout << Other[12] << Images[i].GetFileSize() << endl;
 		cout << Other[15] << Images[i].GetHeight() << endl;
 		cout << Other[16] << Images[i].GetWidth() << endl;
@@ -336,26 +330,20 @@ void Program::ReadDocImg()
 		{
 			cout << endl << Other[4] << counter << endl;
 			cout << Other[9] << Documents[i].GetName() << endl;
-			cout << Other[10] << Documents[i].GetOwner() << endl;
-			cout << Other[11] << Documents[i].GetDate() << endl;
-			cout << Other[12] << Documents[i].GetFileSize() << endl;
-			cout << Other[13] << Documents[i].GetFont() << endl;
-			cout << Other[14] << Documents[i].GetColor() << endl;
 		}
 		cout << Other[5] << endl;
 		for (int i = 0, max = Images.size(); i < max; i++, counter++)
 		{
 			cout << endl << Other[6] << counter << endl;
 			cout << Other[9] << Images[i].GetName() << endl;
-			cout << Other[10] << Images[i].GetOwner() << endl;
-			cout << Other[11] << Images[i].GetDate() << endl;
-			cout << Other[12] << Images[i].GetFileSize() << endl;
-			cout << Other[15] << Images[i].GetHeight() << endl;
-			cout << Other[16] << Images[i].GetWidth() << endl;
 		}
 		
 		cout << endl << Other[18] << endl;
 		cout << GetMenu(13) << endl << GetMenu(16) << endl;
+
+		int NumDocs = 0;
+		int NumImgs = 0;
+
 		key = _getch();
 		switch (key)
 		{
@@ -373,15 +361,17 @@ void Program::ReadDocImg()
 			int NumOfFiles = 0;
 			if (Documents.empty())
 			{
-				NumOfFiles = Images.size();
+				NumImgs = NumOfFiles = Images.size();
 			}
 			else if (Images.empty())
 			{
-				NumOfFiles = Documents.size();
+				NumDocs = NumOfFiles = Documents.size();
 			}
 			else
 			{
 				NumOfFiles = Documents.size() + Images.size();
+				NumImgs = Images.size();
+				NumDocs = Documents.size();
 			}
 			int num;
 			cout << Other[19];
@@ -394,17 +384,127 @@ void Program::ReadDocImg()
 				cin >> num;
 			}
 			if (num < Documents.size()) F = &Documents[num];
-			else F = &Images[num];
+			else F = &Images[num - NumDocs];
 			do
 			{
 				system("cls");
 				vector<string> v = F->Read();
+				cout << F->GetName() << endl << endl;
 				for (int i = 0, max = v.size(); i < max; i++) cout << v[i] << endl;
 				cout << endl << endl << Menu[14];
-				int key = _getch();
+				char key = _getch();
 			} 
 			while (key != 13);
 			break;
 		}
+	}
+}
+
+void Program::RemoveFile()
+{
+	string str;
+	int max = 0;
+	for (char key = 0; key != 27;)
+	{
+		str.clear();
+		system("cls"); 
+		cout << Menu[22] << endl << Menu[23] << endl << Menu[24] << endl << endl;
+		cout << Menu[13] << endl << Menu[16] << endl;
+
+		key = _getch();
+		switch (key)
+		{
+		case 9:
+			(*this)++;
+			continue;
+		case 27:
+			return;
+		case '1':
+			if (Documents.empty())
+			{
+				cout << Other[20] << endl;
+				cout << Menu[20] << endl;
+				_getch();
+				continue;
+			}
+			else
+			{
+				cout << Other[3] << endl;
+				max = Documents.size();
+				for (int i = 0; i < max; i++)
+				{
+					cout << endl << Other[4] << i << endl;
+					cout << Other[9] << Documents[i].GetName() << endl;
+				}
+			}
+			break;
+		case '2':
+			if (Images.empty())
+			{
+				cout << Other[20] << endl;
+				cout << Menu[20] << endl;
+				_getch();
+				continue;
+			}
+			else
+			{
+				cout << Other[5] << endl;
+				max = Images.size();
+				for (int i = 0; i < max; i++)
+				{
+					cout << endl << Other[6] << i << endl;
+					cout << Other[9] << Images[i].GetName() << endl;
+				}
+			}
+			break;
+		case '3':
+			if (Tables.empty())
+			{
+				cout << Other[20] << endl;
+				cout << Menu[20] << endl;
+				_getch();
+				continue;
+			}
+			else
+			{
+				max = Tables.size();
+				cout << Other[7] << endl;
+				for (int i = 0; i < max; i++)
+				{
+					cout << endl << Other[8] << i << endl;
+					cout << Other[9] << Tables[i].GetTName() << endl;
+				}
+			}
+			break;
+		}
+		str += Config[key - 48];
+
+		int num;
+		cout << Other[19];
+		cin >> num;
+		while (!cin.good() || !(num >= 0 && num < max))
+		{
+			cout << Errors[5];
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cin >> num;
+		}
+
+		switch (key)
+		{
+		case '1':
+			str += Documents[num].GetName();
+			Documents.erase(Documents.begin() + num);
+			break;
+		case '2':
+			str += Images[num].GetName();
+			Images.erase(Images.begin() + num);
+			break;
+		case '3':
+			str += Tables[num].GetTName();
+			Tables.erase(Tables.begin() + num);
+			break;
+		}
+		remove(str.c_str());
 	}
 }

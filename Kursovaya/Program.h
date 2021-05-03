@@ -26,6 +26,7 @@ public:
 	void ViewMenu(int, int);
 	string GetMenu(int);
 	string GetLocal();
+	void SetUser();
 	void ShowTitle();
 	void Error();
 	void AddFiles();
@@ -33,7 +34,7 @@ public:
 	void ListImages();
 	void ListTables();
 	void ReadDocImg();
-	void SetUser();
+	void RemoveFile();
 	string GetUser();
 	vector<string> GetListColors();
 	void operator ++ (int);

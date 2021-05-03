@@ -23,4 +23,5 @@ public:
 	virtual vector<string> Read();
 	friend bool operator + (Document&, Document&); // Оставить таблицу первого
 	friend bool operator << (Document&, Table&);
+	virtual void operator --(int) {};
 };

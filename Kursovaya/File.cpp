@@ -40,7 +40,7 @@ bool File::Update(string Path)
 void File::Write()
 {
 	system("cls");
-	cout << Name << endl;
+	cout << Name << endl << endl;
 	for (int i = 0, max = Content.size() - 1; i < max; i++)
 		cout << Content[i] << endl;
 	cout << Content.back();
@@ -54,7 +54,7 @@ void File::Write()
 			if (Content.back().length() == 0) Content.pop_back();
 			else Content.back().erase(Content.back().size() - 1);
 			system("cls");
-			cout << Name << endl;
+			cout << Name << endl << endl;
 			for (int i = 0, max = Content.size() - 1; i < max; i++)
 				cout << Content[i] << endl;
 			cout << Content.back();

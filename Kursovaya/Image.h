@@ -19,4 +19,5 @@ public:
 	virtual vector<string> Read();
 	void SetDimensions();
 	Image operator << (Square*);
+	virtual void operator --(int) {};
 };

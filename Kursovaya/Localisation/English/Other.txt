@@ -18,4 +18,4 @@ Width:
 Number of columns: 
 Press Enter to enter the document number, or image to view it.
 Number of file: 
-There are no documents or files.
+There are no files.
