@@ -4,7 +4,7 @@
 File::File()
 {
 	Size = 0;
-	cout << "asdasd" << endl;
+	Content.push_back("");
 }
 
 File::File(long Size, string Date, string Owner)
@@ -36,15 +36,6 @@ bool File::Update(string Path)
 	Size = length;
 	return true;
 }
-
-/*ostream & operator << (ostream &output, File &Doc)
-{
-	string str = Doc.Read();
-	cout << str << endl;
-	return output;
-}*/
-
-
 
 void File::Write()
 {
@@ -88,6 +79,11 @@ void File::SetName(string TName)
 	Name = TName;
 }
 
+string File::GetOwner()
+{
+	return Owner;
+}
+
 string File::GetDate()
 {
 	return Date;
@@ -103,6 +99,11 @@ void File::SetDate()
 void File::SetOwner(string User)
 {
 	Owner = User;
+}
+
+int File::GetFileSize()
+{
+	return Size;
 }
 
 string File::GetName()

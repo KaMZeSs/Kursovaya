@@ -4,3 +4,4 @@ The config file has been changed
 Some documents, tables, pictures have been removed.
 Error, the file cannot be created.
 Error, please try again: 
+Error, the file cannot be created. The changes were not saved.

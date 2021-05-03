@@ -33,6 +33,14 @@ int main()
 		case '2':
 			break;
 		case '3':
+			system("cls");
+			App.ListDocs();
+			cout << endl;
+			App.ListImages();
+			cout << endl;
+			App.ListTables();
+			cout << App.GetMenu(20);
+			_getch();
 			break;
 		case '4':
 			break;

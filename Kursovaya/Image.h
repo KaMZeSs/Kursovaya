@@ -17,7 +17,7 @@ public:
 	int GetWidth();
 	int GetHeight();
 	virtual vector<string> Read();
-	bool SetDimensions();
+	void SetDimensions();
 	virtual void operator ++ () {};
 	Image operator << (Square*);
 };

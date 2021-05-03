@@ -12,21 +12,18 @@ Image::~Image()
 
 }
 
-bool Image::SetDimensions()
+void Image::SetDimensions()
 {
-	int w = 0, h = 0;
-	string Path;
-	ifstream Doc(Path);
-	string str;
-	if (!Doc.is_open()) return false;
-	while (!Doc.eof())
+	height = Content.size();
+	for (int i = 0; i < height; i++)
 	{
-		getline(Doc, str);
-		int temp = str.length();
-		if (temp > w) w = temp;
-		h++;
+		int temp = Content[i].length();
+		if (width > temp)
+		{
+			width = temp;
+		}
+		temp = 0;
 	}
-	return true;
 }
 
 int Image::GetWidth()

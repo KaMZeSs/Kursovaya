@@ -4,14 +4,11 @@
 Document::Document()
 {
 	FontSize = 10;
-	Content.push_back("");
-	cout << "asdasd" << endl;
 }
 
 Document::~Document()
 {
-	if (remove(Name.c_str()) != 0) cout << "Ошибка удаления файла" << endl;
-	//counter--;
+
 }
 
 Document::Document(string TOwner, int Font, string Color, string TName)
@@ -31,24 +28,21 @@ void Document::SetColor(string col)
 	FontColor = col;
 }
 
-int Document::GetColorInt()
+string Document::GetColor()
 {
-	string str, c = FontColor;
+	return FontColor;
+}
+
+int Document::GetColorInt(vector<string> list)
+{
+	string str = FontColor;
 	int col = 7;
-	ifstream Doc("Config/colors.txt");
-	if (!Doc.is_open())
-	{
-		cout << "Файл не открыт" << endl;
-		system("pause");
-		exit(-1);
-	}
 	transform(str.begin(), str.end(), str.begin(), ::tolower);
-	while (!Doc.eof())
+	for (int i = 0; i < list.size(); i++)
 	{
-		getline(Doc, str);
-		if (str.find(c) != string::npos)
+		if (list[i].find(str) != string::npos) 
 		{
-			col = str[0];
+			col = i; 
 			break;
 		}
 	}

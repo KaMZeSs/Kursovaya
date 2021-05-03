@@ -1,3 +1,18 @@
 Specify document color: 
 Enter the number of columns in the table: 
 Enter the font size: 
+List of Documents
+Document №
+List of Images
+Image №
+List of Tables
+Table №
+File name: 
+File creator name: 
+File creation date: 
+File size: 
+Font size: 
+Color: 
+Height: 
+Width: 
+Number of columns: 

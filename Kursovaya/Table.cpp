@@ -169,11 +169,6 @@ int Table::GetNumOfColumns()
 	return NumOfColumns;
 }
 
-string Table::GetLine(int i)
-{
-	return TableContent[i];
-}
-
 void Table::operator--(int)
 {
 	TableContent.resize(TableContent.size() - NumOfColumns);

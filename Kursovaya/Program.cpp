@@ -20,7 +20,7 @@ Program::Program()
 		exit(-1);
 	}
 
-	for (int i = 0; !Doc.eof() && i < 15; i++)
+	for (int i = 0; !Doc.eof() && i < 16; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0)
@@ -36,6 +36,17 @@ Program::Program()
 	local.erase(0, 21);
 	local.erase(7, 4);
 	(*this)++;
+
+	Doc.close();
+	Doc.open(Config[15].c_str());					//Ошибки
+	if (!Doc.is_open()) Error();
+	for (int i = 0; !Doc.eof() && i < 16; i++)
+	{
+		getline(Doc, str);
+		if (str.length() == 0) Error();
+		Colors.push_back(str);
+	}
+
 	system("cls");
 	SetUser();
 }
@@ -105,7 +116,7 @@ void Program::operator ++ (int)
 	Doc.close();
 	Doc.open(ListLocalisation[0].c_str());					//Ошибки
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 6; i++)
+	for (int i = 0; !Doc.eof() && i < 7; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -124,7 +135,7 @@ void Program::operator ++ (int)
 	Doc.close();
 	Doc.open(ListLocalisation[2].c_str());					//Меню
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 21; i++)
+	for (int i = 0; !Doc.eof() && i < 22; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -134,7 +145,7 @@ void Program::operator ++ (int)
 
 	Doc.open(ListLocalisation[3].c_str());					//Другое
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 3; i++)
+	for (int i = 0; !Doc.eof() && i < 18; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -172,7 +183,6 @@ void Program::AddFiles()
 		{
 			if (key == '1')	F = &Doc;
 			else F = &Img;
-
 			string str;
 			cout << Menu[18];
 			cin >> str;
@@ -187,7 +197,7 @@ void Program::AddFiles()
 				int num;
 				cout << Other[2] << endl;
 				cin >> num;
-				while (!cin.good())
+				while (!cin.good() || num <= 0)
 				{
 					cout << Errors[5] << endl;
 					cin.clear();
@@ -205,10 +215,10 @@ void Program::AddFiles()
 			}
 			else
 			{
-				cout << Errors[]; // Не удалось создать документ
+				cout << Errors[6] << endl; // Не удалось создать документ
 			}
 		}
-		else if (key == '3')
+		if (key == '3')
 		{
 			string str;
 			cout << Menu[18];
@@ -216,7 +226,7 @@ void Program::AddFiles()
 			int num;
 			cout << Other[1];
 			cin >> num;
-			while (!cin.good())
+			while (!cin.good() || num <= 0)
 			{
 				cout << Errors[5] << endl;
 				cin.clear();
@@ -226,8 +236,14 @@ void Program::AddFiles()
 			Table Tab(num);
 			Tab.SetTName(str);
 			Tab.Work();
-			Tab.Update(Config[key-48]);
-			Tables.push_back(Tab);
+			if (Tab.Update(Config[key - 48]))
+			{
+				Tables.push_back(Tab);
+			}
+			else
+			{
+				cout << Errors[6] << endl;
+			}
 		}
 	}
 }
@@ -242,6 +258,11 @@ string Program::GetUser()
 	return User;
 }
 
+vector<string> Program::GetListColors()
+{
+	return Colors;
+}
+
 void Program::CreateDocImg(File* Doc)
 {
 	Doc->SetDate();
@@ -249,39 +270,45 @@ void Program::CreateDocImg(File* Doc)
 	Doc->Write();
 }
 
-/*void Program::CreateDoc(Document& Doc)
+void Program::ListDocs()
 {
-	string str;
-	cout << this->GetMenu(18);
-	cin >> str;
-	Doc.SetName(str);
-	cout << Other[0];
-	cin >> str;
-	Doc.SetColor(str);
-	bool key = true;
-	while (key)
+	cout << Other[3] << endl;
+	for (int i = 0, max = Documents.size(); i < max; i++)
 	{
-		int num;
-		cin >> num;
-		if (!cin.good())
-			key = !Doc.SetFontSize(num);
-		else
-			cout << "Ошибка" << endl;
+		cout << endl << Other[4] << i << endl;
+		cout << Other[9] << Documents[i].GetName() << endl;
+		cout << Other[10] << Documents[i].GetOwner() << endl;
+		cout << Other[11] << Documents[i].GetDate() << endl;
+		cout << Other[12] << Documents[i].GetFileSize() << endl;
+		cout << Other[13] << Documents[i].GetFont() << endl;
+		cout << Other[14] << Documents[i].GetColor() << endl;
+
 	}
-	Doc.SetDate();
-	Doc.SetOwner(User);
-	Doc.Write();
 }
 
-void Program::CreateImg(Image& Img)
+void Program::ListImages()
 {
-	string str;
-	cout << this->GetMenu(18);
-	cin >> str;
-	Img.SetName(str);
-	bool key = true;
-	Img.SetDate();
-	Img.SetOwner(User);
-	Img.Write();
-	Img.SetDimensions();
-}*/
+	cout << Other[5] << endl;
+	for (int i = 0, max = Images.size(); i < max; i++)
+	{
+		cout << endl << Other[6] << i << endl;
+		cout << Other[9] << Images[i].GetName() << endl;
+		cout << Other[10] << Images[i].GetOwner() << endl;
+		cout << Other[11] << Images[i].GetDate() << endl;
+		cout << Other[12] << Images[i].GetFileSize() << endl;
+		cout << Other[15] << Images[i].GetHeight() << endl;
+		cout << Other[16] << Images[i].GetWidth() << endl;
+	}
+}
+
+void Program::ListTables()
+{
+	cout << Other[7] << endl;
+	for (int i = 0, max = Tables.size(); i < max; i++)
+	{
+		cout << endl << Other[8] << i << endl;
+		cout << Other[9] << Tables[i].GetTName() << endl;
+		cout << Other[12] << Tables[i].GetSize() << endl;
+		cout << Other[17] << Tables[i].GetNumOfColumns() << endl;
+	}
+}

@@ -25,10 +25,10 @@ public:
 	bool Update(string);
 	void SetName(string TName);
 	string GetOwner();
-	string GetPath();
 	string GetName();
 	string GetDate();
 	void SetDate();
 	void SetOwner(string);
+	int GetFileSize();
 	virtual void operator ++ () = 0; //Read ini file
 };

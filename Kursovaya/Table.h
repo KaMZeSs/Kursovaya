@@ -24,6 +24,5 @@ public:
 	int GetSize();
 	void SetSize(int);
 	int GetNumOfColumns();
-	string GetLine(int);
 	void operator -- (int);
 };

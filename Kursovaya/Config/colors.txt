@@ -1,0 +1,10 @@
+0 черный			black
+1 синий				dark blue
+2 зеленый			green
+3 голубой			blue
+4 красный			red
+5 лиловый			purple
+6 желтый			yellow
+7 белый				white
+8 серый				grey
+9 светло-синий		light blue

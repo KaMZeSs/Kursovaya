@@ -15,6 +15,7 @@ private:
 	vector<string> Errors;
 	vector<string> Menu; 
 	vector<string> Other;
+	vector<string> Colors;
 	vector<Document> Documents;
 	vector<Image> Images;
 	vector<Table> Tables;
@@ -27,18 +28,15 @@ public:
 	string GetMenu(int);
 	string GetLocal();
 	void ShowTitle();
-	void ShowMenu();
 	void Error();
 	void AddFiles();
 	void CreateDocImg(File*);
-	void CreateDoc(Document&);
-	void CreateImg(Image&);
 	void ListDocs();
 	void ListImages();
-	void CreateTable() {};
 	void ListTables();
 	void SetUser();
 	string GetUser();
+	vector<string> GetListColors();
 	void operator ++ (int);
 };
 

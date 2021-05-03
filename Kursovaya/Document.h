@@ -15,7 +15,7 @@ public:
 	~Document();
 	void SetColor(string);
 	string GetColor();
-	int GetColorInt();
+	int GetColorInt(vector<string>);
 	int GetFont();
 	void SetTablePos(int);
 	int GetTablePos();

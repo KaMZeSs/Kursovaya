@@ -18,3 +18,4 @@ Press ESC to return to the previous page
 Click the S to save user data
 Enter the file name: 
 Enter your name: 
+Press any button to continue.
