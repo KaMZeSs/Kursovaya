@@ -28,6 +28,9 @@ void Image::SetDimensions()
 
 void Image::operator--(int)
 {
+	if (Content.empty() || ( (Content.front() == Content.back()) && Content.back().size() == 0 )) 
+		return;
+
 	int max = 0;
 	for (int i = 0; i < Content.size(); i++)
 		if (Content[i].length() > max) max = Content[i].length();

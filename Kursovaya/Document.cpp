@@ -73,6 +73,7 @@ vector<string> Document::Read()
 
 void Document::operator--(int)
 {
+	if (Content.empty()) return;
 	Content.pop_back();
 }
 

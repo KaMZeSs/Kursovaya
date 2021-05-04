@@ -184,7 +184,7 @@ void Table::SetNumOfColumns(int a)
 	NumOfColumns = a;
 }
 
-void Table::operator--(int)
+void Table::operator >> (int)
 {
 	TableContent.resize(TableContent.size() - NumOfColumns);
 }

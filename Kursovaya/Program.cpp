@@ -992,3 +992,108 @@ void Program::Options()
 		}
 	}
 }
+
+void Program::SecretOptions()
+{
+	for (char key = 0; key != 27;)
+	{
+		int max = 0;
+		File* F;
+		system("cls");
+		cout << Menu[36] << endl << Menu[37] << endl << Menu[38] << endl << Menu[39] << endl << Menu[13] << endl << Menu[16] << endl;
+		key = _getch();
+		switch (tolower(key))
+		{
+		case 9:
+			(*this)++;
+			continue;
+		case '1':
+			for (char w = 0; w != 27;)
+			{
+				system("cls");
+				cout << Menu[40] << endl << Menu[41] << endl << endl << Menu[13] << endl << Menu[16] << endl;
+				w = _getch();
+				system("cls");
+				switch (w)
+				{
+				case 9:
+					(*this)++;
+					continue;
+				case '1':
+					if (Documents.empty())
+					{
+						cout << Other[20] << endl;
+						cout << Menu[20] << endl;
+						_getch();
+						continue;
+					}
+					else
+					{
+						cout << Other[3] << endl;
+						max = Documents.size();
+						for (int i = 0; i < max; i++)
+						{
+							cout << endl << Other[4] << i << endl;
+							cout << Other[9] << Documents[i].GetName() << endl;
+						}
+					}
+					break;
+				case '2':
+					if (Images.empty())
+					{
+						cout << Other[20] << endl;
+						cout << Menu[20] << endl;
+						_getch();
+						continue;
+					}
+					else
+					{
+						cout << Other[5] << endl;
+						max = Images.size();
+						for (int i = 0; i < max; i++)
+						{
+							cout << endl << Other[6] << i << endl;
+							cout << Other[9] << Images[i].GetName() << endl;
+						}
+					}
+					break;
+				default:
+					continue;
+				}
+				int num;
+				int number = 0;
+				cout << Other[19];
+				cin >> num;
+				while (!cin.good() || !(num >= 0 && num < max))
+				{
+					cout << Errors[5];
+					cin.clear();
+					cin.ignore(1000, '\n');
+					cin >> num;
+				}
+				switch (w)
+				{
+				case '1':
+					F = &Documents[num];
+					break;
+				case '2':
+					F = &Images[num];
+					break;
+				default:
+					continue;
+				}
+				(*F)--;
+			}
+			break;
+		case '2':
+			
+			break;
+		case '3':
+			
+			break;
+		case '4':
+			
+			break;
+		}
+	}
+}

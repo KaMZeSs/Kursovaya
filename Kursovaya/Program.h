@@ -41,6 +41,7 @@ public:
 	bool CreateSaveFile();
 	bool OpenSaveFile();
 	void Options();
+	void SecretOptions();
 	string GetUser();
 	vector<string> GetListColors();
 	void operator ++ (int);

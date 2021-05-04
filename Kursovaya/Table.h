@@ -27,5 +27,5 @@ public:
 	void SetSize(int);
 	int GetNumOfColumns();
 	void SetNumOfColumns(int);
-	void operator -- (int);
+	void operator >> (int);
 };

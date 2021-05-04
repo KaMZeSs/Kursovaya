@@ -33,3 +33,10 @@ Enter the path to the file:
 1. Change the text.
 2. Modify, or create a table in the document.
 3. Change the number of columns in the table.
+Press p to display additional options.
+1. Crop a document or image.
+2. Fold two documents.
+3. Insert the table into the document.
+4. Truncate the table.
+1. Crop the document.
+2. Crop the image.
