@@ -6,7 +6,6 @@
 class Program
 {
 private:
-	//static int counter;
 	string local;
 	string User;
 	string Color;
@@ -42,7 +41,7 @@ public:
 	bool OpenSaveFile();
 	void Options();
 	void SecretOptions();
-	void ListAllInFile(); // Создать файл и открыть его с помощью cmd
+	void ListAllInFile(); // Создать файл и открыть его с помощью cmd Записать в файле сколько каждого
 	string GetUser();
 	vector<string> GetListColors();
 	void operator ++ (int);
