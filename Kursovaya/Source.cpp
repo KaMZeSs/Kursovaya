@@ -19,7 +19,7 @@ int main()
 	{
 		system("cls");
 		App.ViewMenu(1, 8);
-		cout << App.GetMenu(21) << App.GetMenu(35) << endl << endl << App.GetMenu(28) << endl << App.GetMenu(15) << endl << App.GetMenu(17) << endl;
+		cout << App.GetMenu(21) << endl << endl << App.GetMenu(35) << endl << App.GetMenu(28) << endl << App.GetMenu(15) << endl << App.GetMenu(17) << endl;
 		key = _getch();
 		switch (tolower(key))
 		{
@@ -58,6 +58,5 @@ int main()
 			break;
 		}
 	}
-	system("pause");
 	return 0;
 }

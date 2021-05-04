@@ -997,18 +997,20 @@ void Program::SecretOptions()
 {
 	for (char key = 0; key != 27;)
 	{
+		int num1 = 0, num2 = 0;
 		int max = 0;
 		File* F;
 		system("cls");
 		cout << Menu[36] << endl << Menu[37] << endl << Menu[38] << endl << Menu[39] << endl << Menu[13] << endl << Menu[16] << endl;
 		key = _getch();
+		char w = 0;
 		switch (tolower(key))
 		{
 		case 9:
 			(*this)++;
 			continue;
 		case '1':
-			for (char w = 0; w != 27;)
+			for (; w != 27;)
 			{
 				system("cls");
 				cout << Menu[40] << endl << Menu[41] << endl << endl << Menu[13] << endl << Menu[16] << endl;
@@ -1082,17 +1084,183 @@ void Program::SecretOptions()
 				default:
 					continue;
 				}
-				(*F)--;
+				(*F)++;
 			}
 			break;
 		case '2':
-			
+			for (; w != 27;)
+			{
+				system("cls");
+				cout << Other[31] << endl << endl << Other[38] << endl << Menu[13] << endl << Menu[16] << endl;
+				w = _getch();
+				switch (w)
+				{
+				case 13:
+					system("cls");
+					if (Documents.empty())
+					{
+						cout << Other[20] << endl;
+						cout << Menu[20] << endl;
+						_getch();
+						continue;
+					}
+					cout << Other[3] << endl;
+					max = Documents.size();
+					for (int i = 0; i < max; i++)
+					{
+						cout << endl << Other[4] << i << endl;
+						cout << Other[9] << Documents[i].GetName() << endl;
+					}
+					cout << Other[32];
+					cin >> num1;
+					while (!cin.good() || !(num1 >= 0 && num1 < max))
+					{
+						cout << Errors[5];
+						cin.clear();
+						cin.ignore(1000, '\n');
+						cin >> num1;
+					}
+					cout << Other[33];
+					cin >> num2;
+					while (!cin.good() || !(num2 >= 0 && num2 < max))
+					{
+						cout << Errors[5];
+						cin.clear();
+						cin.ignore(1000, '\n');
+						cin >> num2;
+					}
+					Documents[num1] + Documents[num2];
+					Documents[num1].ProcessSize();
+					cout << Other[34] << endl;
+					cout << Menu[20] << endl;
+					_getch();
+					break;
+				case 9:
+					(*this)++;
+					break;
+				default:
+					continue;
+				}
+			}
 			break;
 		case '3':
-			
+			for (; w != 27;)
+			{
+				system("cls");
+				cout << Other[38] << endl << Menu[13] << endl << Menu[16] << endl;
+				w = _getch();
+				switch (w)
+				{
+				case 13:
+					system("cls");
+					if (Documents.empty() || Tables.empty())
+					{
+						cout << Other[20] << endl;
+						cout << Menu[20] << endl;
+						_getch();
+						continue;
+					}
+					cout << Other[3] << endl;
+					max = Documents.size();
+					for (int i = 0; i < max; i++)
+					{
+						cout << endl << Other[4] << i << endl;
+						cout << Other[9] << Documents[i].GetName() << endl;
+					}
+					cout << Other[35];
+					cin >> num1;
+					while (!cin.good() || !(num1 >= 0 && num1 < max))
+					{
+						cout << Errors[5];
+						cin.clear();
+						cin.ignore(1000, '\n');
+						cin >> num1;
+					}
+					system("cls");
+					cout << endl << Other[7] << endl;
+					max = Tables.size();
+					for (int i = 0; i < max; i++)
+					{
+						cout << endl << Other[8] << i << endl;
+						cout << Other[9] << Documents[i].GetName() << endl;
+					}
+					cout << Other[36];
+					cin >> num2;
+					while (!cin.good() || !(num2 >= 0 && num2 < max))
+					{
+						cout << Errors[5];
+						cin.clear();
+						cin.ignore(1000, '\n');
+						cin >> num2;
+					}
+					Documents[num1] << Tables[num2];
+					cout << Other[37] << endl;
+					cout << Menu[20] << endl;
+					_getch();
+					break;
+				case 9:
+					(*this)++;
+					break;
+				default:
+					continue;
+				}
+			}
 			break;
 		case '4':
-			
+			for (; w != 27;)
+			{
+				system("cls");
+				cout << Other[38] << endl << Menu[13] << endl << Menu[16] << endl;
+				w = _getch();
+				switch (w)
+				{
+				case 13:
+					system("cls");
+					if (Documents.empty() || Tables.empty())
+					{
+						cout << Other[20] << endl;
+						cout << Menu[20] << endl;
+						_getch();
+						continue;
+					}
+					cout << endl << Other[7] << endl;
+					max = Tables.size();
+					for (int i = 0; i < max; i++)
+					{
+						cout << endl << Other[8] << i << endl;
+						cout << Other[9] << Documents[i].GetName() << endl;
+					}
+					cout << Other[36];
+					cin >> num2;
+					while (!cin.good() || !(num2 >= 0 && num2 < max))
+					{
+						cout << Errors[5];
+						cin.clear();
+						cin.ignore(1000, '\n');
+						cin >> num2;
+					}
+					system("cls");
+					cout << Other[17];
+					cin >> num1;
+					while (!cin.good() || num1 <= 0)
+					{
+						cout << Errors[5];
+						cin.clear();
+						cin.ignore(1000, '\n');
+						cin >> num1;
+					}
+					Tables[num2] >> num1;
+					cout << Other[37] << endl;
+					cout << Menu[20] << endl;
+					_getch();
+					break;
+				case 9:
+					(*this)++;
+					break;
+				default:
+					continue;
+				}
+			}
 			break;
 		}
 	}

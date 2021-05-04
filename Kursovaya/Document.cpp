@@ -51,12 +51,18 @@ bool operator + (Document& Doc1, Document& Doc2)
 {
 	for (int i = 0, max = Doc2.Content.size(); i < max; i++)
 		Doc1.Content.push_back(Doc2.Content[i]);
+	if (Doc1.TableContent.empty())
+	{
+		for (int i = 0, max = Doc2.TableContent.size(); i < max; i++)
+			Doc1.TableContent.push_back(Doc2.TableContent[i]);
+		Doc1.NumOfColumns = Doc2.NumOfColumns;
+	}
 	return true;
 }
 
 bool operator << (Document & Doc, Table & Tab)
 {
-	Doc.Content = Tab.GetTableContent();
+	Doc.TableContent = Tab.GetTableContent();
 	Doc.NumOfColumns = Tab.GetNumOfColumns();
 	Doc.Table::Size = Tab.GetSize();
 	Doc.MaxInCol = Tab.GetMaxInCol();
@@ -71,10 +77,11 @@ vector<string> Document::Read()
 	return v;
 }
 
-void Document::operator--(int)
+void Document::operator++(int)
 {
-	if (Content.empty()) return;
-	Content.pop_back();
+	int len = Content.back().length();
+	Content.back().clear();
+	Content.back().resize(len, 149);
 }
 
 bool Document::SetFontSize(int num)
@@ -91,7 +98,6 @@ bool Document::SetFontSize(int num)
 int Document::ReadFromFile(string Path)
 {
 	int length = 0;
-	bool table = false;
 	string str = Path;
 	str += Name;
 	ifstream Doc(str);
@@ -106,6 +112,7 @@ int Document::ReadFromFile(string Path)
 		length += Content.back().length();
 		if (str == "<=>") break;
 	}
+	File::Size = length;
 	while (!Doc.eof())
 	{
 		str.clear();

@@ -72,6 +72,8 @@ void File::Write()
 			cout << key;
 		}
 	}
+	Size = 0;
+	for (int i = 0, max = Content.size(); i < max; i++) Size += Content[i].length();
 }
 
 void File::SetName(string TName)
@@ -110,6 +112,12 @@ void File::SetOwner(string User)
 int File::GetFileSize()
 {
 	return Size;
+}
+
+void File::ProcessSize()
+{
+	Size = 0;
+	for (int i = 0, max = Content.size(); i < max; i++) Size += Content[i].length();
 }
 
 string File::GetName()

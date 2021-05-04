@@ -29,3 +29,11 @@ The file is already exist.
 7 white
 8 gray
 9 light blue
+Attention, when you add two documents, the first file will change, if in both documents the table, the table in the first file will not change.
+First document number: 
+Second document number: 
+The fold is complete.
+Document Number:
+Table number:
+Processing completed.
+Press Enter to start entering data.

@@ -25,5 +25,6 @@ public:
 	void SetDate(string);
 	void SetOwner(string);
 	int GetFileSize();
-	virtual void operator --(int) = 0;
+	void ProcessSize();
+	virtual void operator ++(int) = 0;
 };

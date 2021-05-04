@@ -26,26 +26,33 @@ void Image::SetDimensions()
 	}
 }
 
-void Image::operator--(int)
+void Image::operator++(int)
 {
-	if (Content.empty() || ( (Content.front() == Content.back()) && Content.back().size() == 0 )) 
-		return;
-
-	int max = 0;
-	for (int i = 0; i < Content.size(); i++)
-		if (Content[i].length() > max) max = Content[i].length();
-
-	vector<int> v;
-	for (int i = 0; i < Content.size(); i++)
-		if (max == Content[i].length()) v.push_back(i);
-
-	for (int i = 0; i < v.size(); i++)
+	if (Content.size() >= 2)
 	{
-		Content.erase(Content.begin() + v[i]);
-		for (int j = 0; j < v.size(); j++)
-			v[j] -= 1;
+		int max = 0;
+		for (int i = 0; i < Content.size(); i++)
+		{
+			if (Content[i].size() > max) max = Content[i].size();
+		}
+		for (int i = 1; i < Content.size() - 1; i++)
+		{
+			Content[i].erase(Content[i].begin());
+			Content[i].erase(Content[i].end());
+			Content[i].insert(Content[i].begin(), 149);
+			Content[i].insert(Content[i].end(), 149);
+		}
+		Content.front().clear();
+		Content.front().resize(max + 1, 149);
+		Content.back().clear();
+		Content.back().resize(max + 1, 149);
 	}
-	Content.pop_back();
+	else
+	{
+		int len = Content.back().size();
+		Content.back().clear();
+		Content.back().resize(len, 149);
+	}
 }
 
 int Image::GetWidth()

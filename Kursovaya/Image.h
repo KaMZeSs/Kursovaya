@@ -13,5 +13,5 @@ public:
 	int GetHeight();
 	virtual vector<string> Read();
 	void SetDimensions();
-	virtual void operator --(int);
+	virtual void operator ++(int);
 };

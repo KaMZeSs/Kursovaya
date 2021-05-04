@@ -42,6 +42,7 @@ public:
 	bool OpenSaveFile();
 	void Options();
 	void SecretOptions();
+	void ListAllInFile(); // Создать файл и открыть его с помощью cmd
 	string GetUser();
 	vector<string> GetListColors();
 	void operator ++ (int);

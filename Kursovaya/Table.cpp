@@ -71,7 +71,7 @@ void Table::Work()
 			{
 				TableContent.pop_back();
 			}
-			int a = TableContent.size() % NumOfColumns;
+			/*int a = TableContent.size() % NumOfColumns;
 			if (a != 0)
 			{
 				while (a != 0)
@@ -79,7 +79,7 @@ void Table::Work()
 					TableContent.pop_back();
 					a--;
 				}
-			}
+			}*/
 			break;
 		}
 
@@ -184,9 +184,10 @@ void Table::SetNumOfColumns(int a)
 	NumOfColumns = a;
 }
 
-void Table::operator >> (int)
+void Table::operator >> (int a)
 {
-	TableContent.resize(TableContent.size() - NumOfColumns);
+	NumOfColumns = a;
+	SetMax();
 }
 
 bool Table::Update(string Path)
