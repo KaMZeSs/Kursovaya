@@ -25,7 +25,6 @@ bool File::Update(string Path)
 	string str = Path;
 	str += Name;
 	ofstream Doc(str);
-	string s;
 	if (!Doc.is_open()) return false;
 	for (int i = 0, max = Content.size(); i < max; i++)
 	{
@@ -94,6 +93,12 @@ void File::SetDate()
 	time_t rawtime;
 	time(&rawtime);
 	Date = ctime(&rawtime);
+	Date.erase(Date.length() - 1);
+}
+
+void File::SetDate(string D)
+{
+	Date = D;
 }
 
 void File::SetOwner(string User)
@@ -109,4 +114,22 @@ int File::GetFileSize()
 string File::GetName()
 {
 	return Name;
+}
+
+int File::ReadFromFile(string Path)
+{
+	int length = 0;
+	string str = Path;
+	str += Name;
+	ifstream Doc(str);
+	if (!Doc.is_open()) return -1;
+	for (int i = 0; !Doc.eof(); i++)
+	{
+		str.clear();
+		getline(Doc, str);
+		Content.push_back(str);
+		length += Content[i].length();
+	}
+	Size = length;
+	return 0;
 }

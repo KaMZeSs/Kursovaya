@@ -20,7 +20,7 @@ Program::Program()
 		exit(-1);
 	}
 
-	for (int i = 0; !Doc.eof() && i < 16; i++)
+	for (int i = 0; !Doc.eof() && i < 18; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0)
@@ -47,8 +47,9 @@ Program::Program()
 		Colors.push_back(str);
 	}
 
-	system("cls");
-	SetUser();
+	if (!OpenSaveFile()) SetUser();
+	else (*this) << Color.c_str()[0];
+	(*this)++; (*this)++;
 }
 
 Program::~Program()
@@ -94,7 +95,6 @@ void Program::operator ++ (int)
 	if (strstr(Config[changer].c_str(), local.c_str()))
 		changer = 10;
 
-
 	ListLocalisation.clear();
 	Errors.clear();
 	Front_page.clear();
@@ -117,7 +117,7 @@ void Program::operator ++ (int)
 	Doc.close();
 	Doc.open(ListLocalisation[0].c_str());					//Ошибки
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 7; i++)
+	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -127,7 +127,7 @@ void Program::operator ++ (int)
 	Doc.close();
 	Doc.open(ListLocalisation[1].c_str());					//Титульная страница
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 12; i++)
+	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
 		Front_page.push_back(str);
@@ -136,7 +136,7 @@ void Program::operator ++ (int)
 	Doc.close();
 	Doc.open(ListLocalisation[2].c_str());					//Меню
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 28; i++)
+	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -146,7 +146,7 @@ void Program::operator ++ (int)
 
 	Doc.open(ListLocalisation[3].c_str());					//Другое
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 22; i++)
+	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0) Error();
@@ -174,13 +174,12 @@ ostream& operator << (ostream & out, Program & App)
 	return out;
 }
 
-Program& operator << (Program& Pr, char a)
+void operator << (Program & Pr, char a)
 {
 	string str = Pr.GetConfig(14);
 	str += 32;
 	str += a;
 	system(str.c_str());
-	return Pr;
 }
 
 void Program::AddFiles()
@@ -340,7 +339,7 @@ void Program::ListDocs()
 		cout << endl << Other[4] << i << endl;
 		cout << Other[9] << Documents[i].GetName() << endl;
 		cout << Other[10] << Documents[i].GetOwner() << endl;
-		cout << Other[11] << Documents[i].GetDate();
+		cout << Other[11] << Documents[i].GetDate() << endl;
 		cout << Other[12] << Documents[i].GetFileSize() << endl;
 		cout << Other[13] << Documents[i].GetFont() << endl;
 		cout << Other[14] << Documents[i].GetColor() << endl;
@@ -355,7 +354,7 @@ void Program::ListImages()
 		cout << endl << Other[6] << i << endl;
 		cout << Other[9] << Images[i].GetName() << endl;
 		cout << Other[10] << Images[i].GetOwner() << endl;
-		cout << Other[11] << Images[i].GetDate();
+		cout << Other[11] << Images[i].GetDate() << endl;
 		cout << Other[12] << Images[i].GetFileSize() << endl;
 		cout << Other[15] << Images[i].GetHeight() << endl;
 		cout << Other[16] << Images[i].GetWidth() << endl;
@@ -662,6 +661,266 @@ void Program::OpenFile()
 			break;
 		case '3':
 			Tables[num].Work();
+			break;
+		}
+	}
+}
+
+bool Program::CreateSaveFile()
+{
+	string lineBetweenSame = Config[16];
+	string lineBetweenDiff = Config[17];
+
+	Save.clear();
+
+	Save.push_back(local);
+	Save.push_back(User);
+	Save.push_back(Color);
+
+	if (Documents.size() > 0)
+	{
+		Save.push_back(Config[1]);
+		for (int i = 0; i < Documents.size(); i++)
+		{
+			Save.push_back(Documents[i].GetName());
+			Save.push_back(Documents[i].GetDate());
+			Save.push_back(to_string(Documents[i].GetFont()));
+			Save.push_back(Documents[i].GetColor());
+			Save.push_back(to_string(Documents[i].GetNumOfColumns()));
+			if (i == Documents.size() - 1) { Save.push_back(lineBetweenDiff); }
+			else Save.push_back(lineBetweenSame);
+		}
+	}
+	if (Images.size() > 0)
+	{
+		Save.push_back(Config[2]);
+		for (int i = 0; i < Images.size(); i++)
+		{
+			Save.push_back(Images[i].GetName());
+			Save.push_back(Images[i].GetDate());
+			if (i == Images.size() - 1) { Save.push_back(lineBetweenDiff); }
+			else Save.push_back(lineBetweenSame);
+		}
+	}
+	if (Tables.size() > 0)
+	{
+		Save.push_back(Config[3]);
+		for (int i = 0; i < Tables.size(); i++)
+		{
+			Save.push_back(Tables[i].GetTName());
+			Save.push_back(to_string(Tables[i].GetNumOfColumns()));
+			if (i == Tables.size() - 1) { Save.push_back(lineBetweenDiff); }
+			else Save.push_back(lineBetweenSame);
+		}
+	}
+
+	int lenChecker = 0;
+	for (int i = 0; i < Save.size(); i++)
+	{
+		lenChecker += Save[i].length();
+	}
+
+	Save.insert(Save.begin(), to_string(lenChecker));
+
+	ifstream Doc(Config[0]);
+	if (!Doc.is_open()) return false;
+	string str;
+	getline(Doc, str);
+	Doc.close();
+
+	remove(str.c_str());
+
+	ofstream SaveFile(str);
+	if (!SaveFile.is_open()) return false;
+	for (int i = 0; i < Save.size(); i++)
+	{
+		SaveFile << Save[i] << endl;
+	}
+	return true;
+}
+
+bool Program::OpenSaveFile()
+{
+	string lineBetweenSame = Config[16];
+	string lineBetweenDiff = Config[17];
+
+	ifstream Doc(Config[0]);
+	if (!Doc.is_open()) return false;
+	string str;
+	getline(Doc, str);
+	Doc.close();
+	int SizeOfFile;
+	
+	Doc.open(str);
+	if (!Doc.is_open()) return false;
+	string s;
+	getline(Doc, s);
+	SizeOfFile = stoi(s);
+	int lenChecker = 0;
+	while (!Doc.eof())
+	{
+		s.clear();
+		getline(Doc, s);
+		lenChecker += s.length();
+	}
+	Doc.close();
+
+	if (lenChecker != SizeOfFile) return false;
+
+	Doc.open(str);
+	if (!Doc.is_open()) return false;
+	getline(Doc, s);
+	s.clear();
+	getline(Doc, local);
+	getline(Doc, User);
+	getline(Doc, Color);
+
+	string check;
+	
+	getline(Doc, check);
+	
+	string Name, Date, Font, Color, NumOfCol;
+
+	string line;
+
+	if (check == Config[1])
+	{
+		for (int i = 0; !Doc.eof(); i++)
+		{
+			Document T;
+			Name.clear(); Date.clear(); Font.clear(); Color.clear(); NumOfCol.clear(); line.clear();
+			getline(Doc, Name);
+			getline(Doc, Date);
+			getline(Doc, Font);
+			getline(Doc, Color);
+			getline(Doc, NumOfCol);
+			getline(Doc, line);
+			
+			if (Font.length() == 0 || NumOfCol.length() == 0) continue;
+			T.SetName(Name);
+			T.SetDate(Date);
+			T.SetFontSize(stoi(Font));
+			T.SetColor(Color);
+			T.SetNumOfColumns(stoi(NumOfCol));
+			T.ReadFromFile(Config[1]);
+			Documents.push_back(T);
+			T.~Document();
+
+			if (line == lineBetweenDiff)
+			{
+				break;
+			}
+			else if (line != lineBetweenSame)
+			{
+				return false;
+			}
+		}
+		getline(Doc, check);
+	}
+
+	if (check == Config[2])
+	{
+		for (int i = 0; !Doc.eof(); i++)
+		{
+			Image T;
+			Name.clear(); Date.clear(); Font.clear(); Color.clear(); NumOfCol.clear(); line.clear();
+			getline(Doc, Name);
+			getline(Doc, Date);
+			getline(Doc, line);
+
+			T.SetName(Name);
+			T.SetDate(Date);
+			T.ReadFromFile(Config[2]);
+			T.SetDimensions();
+			Images.push_back(T);
+			T.~Image();
+
+			if (line == lineBetweenDiff)
+			{
+				break;
+			}
+			else if (line != lineBetweenSame)
+			{
+				return false;
+			}
+		}
+		getline(Doc, check);
+	}
+
+	if (check == Config[3])
+	{
+		for (int i = 0; !Doc.eof(); i++)
+		{
+			Table T;
+			Name.clear(); Date.clear(); Font.clear(); Color.clear(); NumOfCol.clear(); line.clear();
+			getline(Doc, Name);
+			getline(Doc, NumOfCol);
+			getline(Doc, line);
+
+			T.SetTName(Name);
+			T.SetNumOfColumns(stoi(NumOfCol));
+			T.ReadFromFile(Config[3]);
+			T.SetMax();
+			Tables.push_back(T);
+			T.~Table();
+
+			if (line == lineBetweenDiff)
+			{
+				break;
+			}
+			else if (line != lineBetweenSame)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+void Program::Options()
+{
+	char color = 0;
+	for (char key = 0; key != 27;)
+	{
+		system("cls");
+		cout << Menu[29] << endl << Menu[30] << endl << endl << Menu[16] << endl;
+		key = _getch();
+		switch (tolower(key))
+		{
+		case 9:
+			(*this)++;
+			continue;
+		case '1':
+			system("cls");
+			for (int i = 22; i < 31; i++) cout << Other[i] << endl;
+			for (; color < '1' || color > '9';)
+			{
+				color = _getch();
+				if (color < '1' || color > '9')
+				{
+					cout << Errors[5];
+				}
+			}
+			(*this) << color;
+			Color = color;
+			color = 0;
+			break;
+		case '2':
+			system("cls");
+			cout << Menu[31];
+			string str;
+			bool exp = true;
+			while (exp)
+			{
+				cin >> str;
+				ofstream Doc(str);
+				if (Doc.is_open()) exp = false;
+				else Doc.close();
+				if (exp) { cout << Errors[6] << endl << Errors[5]; cin.clear(); }
+			}
+			remove(Config[0].c_str());
+			ofstream Doc(Config[0]);
+			Doc << str;
 			break;
 		}
 	}

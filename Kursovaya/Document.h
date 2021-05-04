@@ -6,8 +6,8 @@ class Document : public File, public Table
 {
 private:
 	int FontSize;
-	int TablePos;
 	string FontColor;
+	bool isTable;
 public:
 	Document(long Size, string Date, string Owner, int FontSize, string Color);
 	Document();
@@ -17,9 +17,8 @@ public:
 	string GetColor();
 	int GetColorInt(vector<string>);
 	int GetFont();
-	void SetTablePos(int);
-	int GetTablePos();
 	bool SetFontSize(int);
+	virtual int ReadFromFile(string);
 	virtual vector<string> Read();
 	friend bool operator + (Document&, Document&); // Оставить таблицу первого
 	friend bool operator << (Document&, Table&);

@@ -4,6 +4,7 @@
 Document::Document()
 {
 	FontSize = 10;
+	isTable = false;
 }
 
 Document::~Document()
@@ -21,6 +22,7 @@ Document::Document(string TOwner, int Font, string Color, string TName)
 	time_t rawtime;
 	time(&rawtime);
 	Date = ctime(&rawtime);
+	isTable = false;
 }
 
 void Document::SetColor(string col)
@@ -78,4 +80,32 @@ bool Document::SetFontSize(int num)
 	}
 	else
 		return false;
+}
+
+int Document::ReadFromFile(string Path)
+{
+	int length = 0;
+	bool table = false;
+	string str = Path;
+	str += Name;
+	ifstream Doc(str);
+	if (!Doc.is_open()) return -1;
+	for (int i = 0; !Doc.eof() && !table; i++)
+	{
+		str.clear();
+		getline(Doc, str);
+		Content.push_back(str);
+		length += Content.back().length();
+		table = (str.find(23) != string::npos);
+	}
+	while (!Doc.eof())
+	{
+		getline(Doc, str);
+		TableContent.push_back(str);
+		str.clear();
+		Table::Size++;
+	}
+
+	File::Size = length;
+	return 0;
 }

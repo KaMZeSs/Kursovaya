@@ -20,3 +20,12 @@ Press Enter to enter the document number, or image to view it.
 Number of file: 
 There are no files.
 The file is already exist.
+1 blue
+2 green
+3 blue
+4 red
+5 lilac
+6 yellow
+7 white
+8 gray
+9 light blue

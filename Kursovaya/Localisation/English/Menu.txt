@@ -26,3 +26,7 @@ Press any button to continue.
 1. Open document.
 2. Open image.
 3. Open table.
+Press O to enter settings.
+1. Change the color.
+2. Change the path before saving.
+Enter the path to the file: 

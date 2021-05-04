@@ -3,8 +3,6 @@
 #include "Image.h"
 #include "Program.h"
 
-void ListAll(Program & App);
-
 int main()
 {
 	SetConsoleCP(1251);
@@ -21,7 +19,7 @@ int main()
 	{
 		system("cls");
 		App.ViewMenu(1, 8);
-		cout << App.GetMenu(21) << endl << endl << App.GetMenu(15) << endl << App.GetMenu(17) << endl;
+		cout << App.GetMenu(21) << endl << endl << App.GetMenu(28) << endl << App.GetMenu(15) << endl << App.GetMenu(17) << endl;
 		key = _getch();
 		switch (tolower(key))
 		{
@@ -50,7 +48,10 @@ int main()
 		case '8':
 			break;
 		case 's':
-			App << '5';
+			App.CreateSaveFile();
+			break;
+		case 'o':
+			App.Options();
 			break;
 		}
 	}

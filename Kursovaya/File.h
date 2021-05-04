@@ -13,6 +13,7 @@ public:
 	File();
 	File(long Size, string Date, string Owner);
 	virtual vector<string> Read() = 0;
+	virtual int ReadFromFile(string);
 	void Write(string buffer);
 	void Write();
 	bool Update(string);
@@ -21,6 +22,7 @@ public:
 	string GetName();
 	string GetDate();
 	void SetDate();
+	void SetDate(string);
 	void SetOwner(string);
 	int GetFileSize();
 	virtual void operator --(int) = 0; // В доке - удалить строку, В карт - удалить строку и правый пиксель

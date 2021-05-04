@@ -169,6 +169,11 @@ int Table::GetNumOfColumns()
 	return NumOfColumns;
 }
 
+void Table::SetNumOfColumns(int a)
+{
+	NumOfColumns = a;
+}
+
 void Table::operator--(int)
 {
 	TableContent.resize(TableContent.size() - NumOfColumns);
@@ -190,7 +195,9 @@ bool Table::Update(string Path)
 
 bool Table::ReadFromFile(string Path)
 {
-	ifstream Doc(Path);
+	string FPath = Path;
+	FPath += TName;
+	ifstream Doc(FPath);
 	if (!Doc.is_open()) return false;
 	string str;
 	Size = 0;
