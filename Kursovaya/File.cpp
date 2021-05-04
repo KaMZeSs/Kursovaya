@@ -24,6 +24,7 @@ bool File::Update(string Path)
 	int length = 0;
 	string str = Path;
 	str += Name;
+	remove(str.c_str());
 	ofstream Doc(str);
 	if (!Doc.is_open()) return false;
 	for (int i = 0, max = Content.size(); i < max; i++)

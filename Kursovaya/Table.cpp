@@ -3,7 +3,7 @@
 
 Table::Table()
 {
-	NumOfColumns = 0;
+	NumOfColumns = 3;
 }
 
 Table::Table(int Column)
@@ -142,6 +142,11 @@ void Table::ReadTable(bool key)
 	if (TableContent.size() % NumOfColumns != 0) cout << line_2;
 }
 
+vector<string> Table::GetTableContent()
+{
+	return TableContent;
+}
+
 void Table::SetMax()
 {
 	MaxInCol.clear();
@@ -152,6 +157,11 @@ void Table::SetMax()
 		if (len > MaxInCol[j]) MaxInCol[j] = len;
 		if (j == NumOfColumns - 1) j = -1;
 	}
+}
+
+vector<int> Table::GetMaxInCol()
+{
+	return MaxInCol;
 }
 
 int Table::GetSize()

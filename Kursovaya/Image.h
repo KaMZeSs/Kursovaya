@@ -1,11 +1,6 @@
 #pragma once
 #include "File.h"
 
-struct Square
-{
-	int X, Y, width, height;
-};
-
 class Image : public File
 {
 private:
@@ -18,6 +13,5 @@ public:
 	int GetHeight();
 	virtual vector<string> Read();
 	void SetDimensions();
-	Image operator << (Square*);
-	virtual void operator --(int) {};
+	virtual void operator --(int);
 };

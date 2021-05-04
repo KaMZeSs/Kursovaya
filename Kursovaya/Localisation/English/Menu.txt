@@ -30,3 +30,6 @@ Press O to enter settings.
 1. Change the color.
 2. Change the path before saving.
 Enter the path to the file: 
+1. Change the text.
+2. Modify, or create a table in the document.
+3. Change the number of columns in the table.

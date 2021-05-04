@@ -26,6 +26,25 @@ void Image::SetDimensions()
 	}
 }
 
+void Image::operator--(int)
+{
+	int max = 0;
+	for (int i = 0; i < Content.size(); i++)
+		if (Content[i].length() > max) max = Content[i].length();
+
+	vector<int> v;
+	for (int i = 0; i < Content.size(); i++)
+		if (max == Content[i].length()) v.push_back(i);
+
+	for (int i = 0; i < v.size(); i++)
+	{
+		Content.erase(Content.begin() + v[i]);
+		for (int j = 0; j < v.size(); j++)
+			v[j] -= 1;
+	}
+	Content.pop_back();
+}
+
 int Image::GetWidth()
 {
 	return width;

@@ -196,7 +196,7 @@ void Program::AddFiles()
 		cout << GetMenu(13) << endl << GetMenu(16) << endl;
 		key = _getch();
 		string str;
-		int num;
+		int num = 0;
 		bool exist = false;
 		switch (key)
 		{
@@ -236,8 +236,41 @@ void Program::AddFiles()
 			Doc.SetFontSize(num);
 			Doc.SetDate();
 			Doc.SetOwner(User);
-			Doc.Write();
-			if (Doc.File::Update(Config[key - 48]))
+			for (char t = 0; t != 27;)
+			{
+				system("cls");
+				vector<string> v = Doc.Read();
+				cout << Doc.GetName() << endl << endl;
+				for (int i = 0, max = v.size(); i < max; i++)
+					cout << v[i] << endl;
+				Doc.ReadTable();
+				cout << endl << Menu[32] << endl << Menu[33] << endl << Menu[34] << endl << endl << Menu[16] << endl;
+				t = _getch();
+				switch (t)
+				{
+				case '1':
+					Doc.Write();
+					break;
+				case '2':
+					Doc.Work();
+					break;
+				case '3':
+					cout << Other[1];
+					cin >> num;
+					while (!cin.good() || num <= 0)
+					{
+						cout << Errors[5];
+						cin.clear();
+						cin.ignore(1000, '\n');
+						cin >> num;
+					}
+					Doc.SetNumOfColumns(num);
+					Doc.SetMax();
+					break;
+				}
+			}
+			
+			if (Doc.Update(Config[key - 48]))
 			{
 				Documents.push_back(Doc);
 			}
@@ -641,6 +674,7 @@ void Program::OpenFile()
 		}
 
 		int num;
+		int number = 0;
 		cout << Other[19];
 		cin >> num;
 		while (!cin.good() || !(num >= 0 && num < max))
@@ -654,7 +688,40 @@ void Program::OpenFile()
 		switch (key)
 		{
 		case '1':
-			Documents[num].Write();
+			for (char t = 0; t != 27;)
+			{
+				system("cls");
+				vector<string> v = Documents[num].Read();
+				cout << Documents[num].GetName() << endl << endl;
+				for (int i = 0, max = v.size(); i < max; i++)
+					cout << v[i] << endl;
+				Documents[num].ReadTable();
+				cout << endl << Menu[32] << endl << Menu[33] << endl << Menu[34] << endl << endl << Menu[16] << endl;
+				t = _getch();
+				switch (t)
+				{
+				case '1':
+					Documents[num].Write();
+					break;
+				case '2':
+					Documents[num].Work();
+					break;
+				case '3':
+					cout << Other[1];
+					cin >> number;
+					while (!cin.good() || number <= 0)
+					{
+						cout << Errors[5];
+						cin.clear();
+						cin.ignore(1000, '\n');
+						cin >> number;
+					}
+					Documents[num].SetNumOfColumns(number);
+					Documents[num].SetMax();
+					break;
+				}
+			}
+			Documents[num].Update(Config[key - 48]);
 			break;
 		case '2':
 			Images[num].Write();
@@ -779,7 +846,7 @@ bool Program::OpenSaveFile()
 	
 	getline(Doc, check);
 	
-	string Name, Date, Font, Color, NumOfCol;
+	string Name, Date, Font, Color, NumOfCol, table;
 
 	string line;
 

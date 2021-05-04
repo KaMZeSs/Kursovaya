@@ -18,9 +18,11 @@ public:
 	void SetTName(string);
 	void Work();
 	void ReadTable(bool key = false);
+	vector<string> GetTableContent();
 	bool Update(string);
 	bool ReadFromFile(string);
 	void SetMax();
+	vector<int> GetMaxInCol();
 	int GetSize();
 	void SetSize(int);
 	int GetNumOfColumns();
