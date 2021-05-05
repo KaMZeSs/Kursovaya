@@ -10,6 +10,7 @@ void Program::Error()
 
 Program::Program()
 {
+	Color = "7";
 	ifstream Doc("Config/MainData.txt");
 	string str;
 
@@ -20,7 +21,7 @@ Program::Program()
 		exit(-1);
 	}
 
-	for (int i = 0; !Doc.eof() && i < 18; i++)
+	for (int i = 0; !Doc.eof() && i < 19; i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0)
@@ -43,7 +44,6 @@ Program::Program()
 	for (int i = 0; !Doc.eof() && i < 16; i++)
 	{
 		getline(Doc, str);
-		if (str.length() == 0) Error();
 		Colors.push_back(str);
 	}
 
@@ -725,9 +725,12 @@ void Program::OpenFile()
 			break;
 		case '2':
 			Images[num].Write();
+			Images[num].SetDimensions();
+			Images[num].Update(Config[key - 48]);
 			break;
 		case '3':
 			Tables[num].Work();
+			Tables[num].Update(Config[key - 48]);
 			break;
 		}
 	}
@@ -737,6 +740,8 @@ bool Program::CreateSaveFile()
 {
 	string lineBetweenSame = Config[16];
 	string lineBetweenDiff = Config[17];
+
+	vector<string> Save;
 
 	Save.clear();
 
@@ -789,19 +794,14 @@ bool Program::CreateSaveFile()
 
 	Save.insert(Save.begin(), to_string(lenChecker));
 
-	ifstream Doc(Config[0]);
+	remove(Config[18].c_str());
+
+	ofstream Doc(Config[18]);
+
 	if (!Doc.is_open()) return false;
-	string str;
-	getline(Doc, str);
-	Doc.close();
-
-	remove(str.c_str());
-
-	ofstream SaveFile(str);
-	if (!SaveFile.is_open()) return false;
 	for (int i = 0; i < Save.size(); i++)
 	{
-		SaveFile << Save[i] << endl;
+		Doc << Save[i] << endl;
 	}
 	return true;
 }
@@ -811,14 +811,11 @@ bool Program::OpenSaveFile()
 	string lineBetweenSame = Config[16];
 	string lineBetweenDiff = Config[17];
 
-	ifstream Doc(Config[0]);
-	if (!Doc.is_open()) return false;
+	vector<string> Save;
+
+	ifstream Doc(Config[18]);
 	string str;
-	getline(Doc, str);
-	Doc.close();
 	int SizeOfFile;
-	
-	Doc.open(str);
 	if (!Doc.is_open()) return false;
 	string s;
 	getline(Doc, s);
@@ -834,7 +831,7 @@ bool Program::OpenSaveFile()
 
 	if (lenChecker != SizeOfFile) return false;
 
-	Doc.open(str);
+	Doc.open(Config[18]);
 	if (!Doc.is_open()) return false;
 	getline(Doc, s);
 	s.clear();
@@ -1130,6 +1127,7 @@ void Program::SecretOptions()
 						cin >> num2;
 					}
 					Documents[num1] + Documents[num2];
+					Documents[num1].Update(Config[1]);
 					Documents[num1].ProcessSize();
 					cout << Other[34] << endl;
 					cout << Menu[20] << endl;
@@ -1264,4 +1262,81 @@ void Program::SecretOptions()
 			break;
 		}
 	}
+}
+
+bool Program::ListAllInFile()
+{
+	vector<string> Save;
+
+	Save.clear();
+	Save.push_back(Other[39]);
+	Save.push_back(Other[40] + to_string(1));
+	Save.push_back(Other[41] + local);
+	Save.push_back(Other[42] + User);
+	Save.push_back(Other[43] + Color);
+	Save.push_back(Other[44] + to_string(Documents.size()));
+	Save.push_back(Other[45] + to_string(Images.size()));
+	Save.push_back(Other[46] + to_string(Tables.size()));
+	Save.push_back(Config[17]);
+
+	if (!Documents.empty())
+	{
+		Save.push_back(Other[3]);
+		for (int i = 0; i < Documents.size(); i++)
+		{
+			Save.push_back(Other[4] + to_string(i));
+			Save.push_back(Other[9] + Documents[i].GetName());
+			Save.push_back(Other[10] + Documents[i].GetOwner());
+			Save.push_back(Other[11] + Documents[i].GetDate());
+			Save.push_back(Other[12] + to_string(Documents[i].GetFileSize()));
+			Save.push_back(Other[13] + to_string(Documents[i].GetFont()));
+			Save.push_back(Other[14] + Documents[i].GetColor());
+			Save.push_back(Config[16]);
+		}
+	}
+
+	if (!Images.empty())
+	{
+		Save.push_back(Other[5]);
+		for (int i = 0; i < Images.size(); i++)
+		{
+			Save.push_back(Other[6] + to_string(i));
+			Save.push_back(Other[9] + Images[i].GetName());
+			Save.push_back(Other[10] + Images[i].GetOwner());
+			Save.push_back(Other[11] + Images[i].GetDate());
+			Save.push_back(Other[12] + to_string(Images[i].GetFileSize()));
+			Save.push_back(Other[16] + to_string(Images[i].GetWidth()));
+			Save.push_back(Other[15] + to_string(Images[i].GetHeight()));
+			Save.push_back(Config[16]);
+		}
+	}
+
+	if (!Tables.empty())
+	{
+		Save.push_back(Other[7]);
+		for (int i = 0; i < Tables.size(); i++)
+		{
+			Save.push_back(Other[8] + to_string(i));
+			Save.push_back(Other[9] + Tables[i].GetTName());
+			Save.push_back(Other[12] + to_string(Tables[i].GetSize()));
+			Save.push_back(Other[17] + to_string(Tables[i].GetNumOfColumns()));
+			Save.push_back(Config[16]);
+		}
+	}
+
+	ifstream Doc(Config[0]);
+	if (!Doc.is_open()) return false;
+	string str;
+	getline(Doc, str);
+	Doc.close();
+
+	remove(str.c_str());
+
+	ofstream SaveFile(str);
+	if (!SaveFile.is_open()) return false;
+	for (int i = 0; i < Save.size(); i++)
+	{
+		SaveFile << Save[i] << endl;
+	}
+	return true;
 }

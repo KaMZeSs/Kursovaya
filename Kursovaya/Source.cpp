@@ -17,6 +17,7 @@ int main()
 
 	for (char key = 0; key != 27;)
 	{
+		App.CreateSaveFile();
 		system("cls");
 		App.ViewMenu(1, 8);
 		cout << App.GetMenu(21) << endl << endl << App.GetMenu(35) << endl << App.GetMenu(28) << endl << App.GetMenu(15) << endl << App.GetMenu(17) << endl;
@@ -47,11 +48,11 @@ int main()
 			break;
 		case '8':
 			break;
-		case 's':
-			App.CreateSaveFile();
-			break;
 		case 'o':
 			App.Options();
+			break;
+		case 's':
+			App.ListAllInFile();
 			break;
 		case 'p':
 			App.SecretOptions();

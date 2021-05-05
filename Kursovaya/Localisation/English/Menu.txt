@@ -15,7 +15,7 @@ Press Tab to change language.
 Press Enter to continue.
 To exit the program press ESC.
 Press ESC to return to the previous page.
-Click the S to save user data.
+Press S to create a system state file.
 Enter the file name: 
 Enter your name: 
 Press any button to continue.
@@ -28,7 +28,7 @@ Press any button to continue.
 3. Open table.
 Press O to enter settings.
 1. Change the color.
-2. Change the path before saving.
+2. Change the path to the file with the system state.
 Enter the path to the file: 
 1. Change the text.
 2. Modify, or create a table in the document.

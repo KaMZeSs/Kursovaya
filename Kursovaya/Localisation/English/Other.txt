@@ -37,3 +37,11 @@ Document Number:
 Table number:
 Processing completed.
 Press Enter to start entering data.
+State of the system.
+Number of objects of class Program: 
+Local: 
+User: 
+Color: 
+Number of Document class objects: 
+Number of objects of class Image: 
+Number of Table objects: 

@@ -108,9 +108,9 @@ int Document::ReadFromFile(string Path)
 	{
 		str.clear();
 		getline(Doc, str);
+		if (str == "<=>") break;
 		Content.push_back(str);
 		length += Content.back().length();
-		if (str == "<=>") break;
 	}
 	File::Size = length;
 	while (!Doc.eof())

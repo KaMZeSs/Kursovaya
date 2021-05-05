@@ -16,7 +16,6 @@ private:
 	vector<string> Menu; 
 	vector<string> Other;
 	vector<string> Colors;
-	vector<string> Save;
 	vector<Document> Documents;
 	vector<Image> Images;
 	vector<Table> Tables;
@@ -41,7 +40,7 @@ public:
 	bool OpenSaveFile();
 	void Options();
 	void SecretOptions();
-	void ListAllInFile(); // Создать файл и открыть его с помощью cmd Записать в файле сколько каждого
+	bool ListAllInFile(); // Создать файл и открыть его с помощью cmd Записать в файле сколько каждого
 	string GetUser();
 	vector<string> GetListColors();
 	void operator ++ (int);
