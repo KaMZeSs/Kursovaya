@@ -48,6 +48,7 @@ void File::Write()
 	while (key != 27)
 	{
 		key = _getch();
+		if (key == 60) continue;
 		if (key == 8)
 		{
 			if (Content.front().length() == 0) continue;

@@ -40,3 +40,4 @@ Press p to display additional options.
 4. Change the number of columns in the table.
 1. Shade the bottom line of the document.
 2. Paint over the edges of the image.
+Failed to create file.

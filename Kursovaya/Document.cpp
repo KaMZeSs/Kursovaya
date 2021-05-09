@@ -103,12 +103,12 @@ int Document::ReadFromFile(string Path)
 	ifstream Doc(str);
 	str.clear();
 	if (!Doc.is_open()) return -1;
-
+	int checker = 1;
 	while (!Doc.eof())
 	{
 		str.clear();
 		getline(Doc, str);
-		if (str == "<=>") break;
+		if (str == "<=>") { checker = 0; break; }
 		Content.push_back(str);
 		length += Content.back().length();
 	}
@@ -119,7 +119,7 @@ int Document::ReadFromFile(string Path)
 		getline(Doc, str);
 		TableContent.push_back(str);
 	}
-	return 0;
+	return checker;
 }
 
 bool Document::Update(string Path)

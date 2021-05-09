@@ -3,13 +3,15 @@
 
 void Program::Error()
 {
-	cerr << Config[13];
+	cerr << Config[13] << endl;
 	system("pause");
 	exit(-1);
 }
 
 Program::Program()
 {
+	size_t HashOfMainData = 4169405112;
+	size_t HashOfColors = 142957391;
 	Color = "7";
 	ifstream Doc("Config/MainData.txt");
 	string str;
@@ -21,31 +23,43 @@ Program::Program()
 		exit(-1);
 	}
 
-	for (int i = 0; !Doc.eof() && i < 19; i++)
+	hash<string> checkerHash;
+	string checkerString;
+	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0)
-		{
-			cout << "Error";
-			system("pause");
-			exit(-1);
-		}
+			checkerString += " ";
+		else
+			checkerString += str;
 		Config.push_back(str);
+	}
+	if (checkerHash(checkerString) != HashOfMainData)
+	{
+		cout << "Error" << endl;
+		system("pause");
+		exit(-1);
 	}
 
 	local = Config[9];
 	local.erase(0, 21);
 	local.erase(7, 4);
 	(*this)++;
-
 	Doc.close();
-	Doc.open(Config[15].c_str());					//Ошибки
+
+	checkerString.clear();
+	Doc.open(Config[15].c_str());					//Цвета
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 16; i++)
+	for (int i = 0; !Doc.eof(), i < 10; i++)
 	{
 		getline(Doc, str);
+		if (str.length() == 0)
+			checkerString += " ";
+		else
+			checkerString += str;
 		Colors.push_back(str);
 	}
+	if (HashOfColors == checkerHash(checkerString)) Error();
 
 	if (!OpenSaveFile()) SetUser();
 	else (*this) << Color.c_str()[0];
@@ -89,6 +103,7 @@ string Program::GetMenu(int line)
 void Program::operator ++ (int)
 {
 	int changer = 9;
+	int *Err, *Front;
 	string str;
 	ifstream Doc;
 
@@ -101,45 +116,61 @@ void Program::operator ++ (int)
 	Menu.clear();
 	Other.clear();
 
+	string checkerString;
+	hash<string> checkerHash;
+
 	local = Config[changer];
 	local.erase(0, 21);
 	local.erase(7, 4);
 
+	if (changer == 9)
+	{
+
+	}
+	else
+	{
+		
+	}
+
 	Doc.open(Config[changer]);
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof() && i < 13; i++)
+	for (int i = 0; !Doc.eof(), i < 4; i++)
 	{
 		getline(Doc, str);
-		if (str.length() == 0) Error();
+		if (str.length() == 0)
+			checkerString += " ";
+		else
+			checkerString += str;
 		ListLocalisation.push_back(str);
 	}
-
 	Doc.close();
+
 	Doc.open(ListLocalisation[0].c_str());					//Ошибки
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof(); i++)
+	for (int i = 0; !Doc.eof(), i < 7; i++)
 	{
 		getline(Doc, str);
-		if (str.length() == 0) Error();
+		int len = str.length();
 		Errors.push_back(str);
 	}
-
 	Doc.close();
+
 	Doc.open(ListLocalisation[1].c_str());					//Титульная страница
 	if (!Doc.is_open()) Error();
 	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
+		int len = str.length();
 		Front_page.push_back(str);
 	}
-
 	Doc.close();
+
 	Doc.open(ListLocalisation[2].c_str());					//Меню
 	if (!Doc.is_open()) Error();
 	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
-		if (str.length() == 0) Error();
+		int len = str.length();
 		Menu.push_back(str);
 	}
 	Doc.close();
@@ -149,10 +180,8 @@ void Program::operator ++ (int)
 	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
-		if (str.length() == 0) Error();
 		Other.push_back(str);
 	}
-
 	Doc.close();
 }
 
@@ -787,11 +816,15 @@ bool Program::CreateSaveFile()
 	}
 
 	int lenChecker = 0;
+	int heightChecker = 0;
+
 	for (int i = 0; i < Save.size(); i++)
 	{
 		lenChecker += Save[i].length();
+		heightChecker++;
 	}
 
+	Save.insert(Save.begin(), to_string(heightChecker));
 	Save.insert(Save.begin(), to_string(lenChecker));
 
 	remove(Config[18].c_str());
@@ -815,36 +848,46 @@ bool Program::OpenSaveFile()
 
 	ifstream Doc(Config[18]);
 	string str;
-	int SizeOfFile;
+	int SizeOfFile, HeightOfFile;
 	if (!Doc.is_open()) return false;
 	string s;
 	getline(Doc, s);
-	SizeOfFile = stoi(s);
+	SizeOfFile = atoi(s.c_str());
+	getline(Doc, s);
+	HeightOfFile = atoi(s.c_str());
 	int lenChecker = 0;
+	int heightChecker = 0;
 	while (!Doc.eof())
 	{
 		s.clear();
 		getline(Doc, s);
 		lenChecker += s.length();
+		heightChecker++;
 	}
 	Doc.close();
 
-	if (lenChecker != SizeOfFile) return false;
+	if (lenChecker != SizeOfFile || heightChecker != HeightOfFile + 1) return false;
 
 	Doc.open(Config[18]);
 	if (!Doc.is_open()) return false;
+	getline(Doc, s);
 	getline(Doc, s);
 	s.clear();
 	getline(Doc, local);
 	getline(Doc, User);
 	getline(Doc, Color);
+	
+	if (Color.length() != 1 || !(Color[0] >= '0' && Color[0] <= '9'))
+	{
+		Color = "7";
+	}
 
 	string check;
 	
 	getline(Doc, check);
 	
 	string Name, Date, Font, Color, NumOfCol, table;
-
+	int temp;
 	string line;
 
 	if (check == Config[1])
@@ -863,12 +906,14 @@ bool Program::OpenSaveFile()
 			if (Font.length() == 0 || NumOfCol.length() == 0) continue;
 			T.SetName(Name);
 			T.SetDate(Date);
-			T.SetFontSize(stoi(Font));
+			temp = atoi(Font.c_str());
+			if (temp == 0) temp = 1;
+			T.SetFontSize(temp);
 			T.SetColor(Color);
-			T.SetNumOfColumns(stoi(NumOfCol));
-			T.ReadFromFile(Config[1]);
-			Documents.push_back(T);
-			T.~Document();
+			temp = atoi(NumOfCol.c_str());
+			if (temp == 0) temp = 3;
+			T.SetNumOfColumns(temp);
+			if (T.ReadFromFile(Config[1]) == 0)	Documents.push_back(T);
 
 			if (line == lineBetweenDiff)
 			{
@@ -922,7 +967,9 @@ bool Program::OpenSaveFile()
 			getline(Doc, line);
 
 			T.SetTName(Name);
-			T.SetNumOfColumns(stoi(NumOfCol));
+			temp = atoi(NumOfCol.c_str());
+			if (temp == 0) temp = 3;
+			T.SetNumOfColumns(temp);
 			T.ReadFromFile(Config[3]);
 			T.SetMax();
 			Tables.push_back(T);

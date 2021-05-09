@@ -52,7 +52,7 @@ int main()
 			App.Options();
 			break;
 		case 's':
-			App.ListAllInFile();
+			if (!App.ListAllInFile()) { cout << App.GetMenu(42); _getch(); }
 			break;
 		case 'p':
 			App.SecretOptions();

@@ -11,7 +11,7 @@ Localisation/English/English.txt
 Localisation/Russian/Russian.txt
 pause
 cls
-Error
+Error. File is changed.
 color
 Config/colors.txt
 -----------------

@@ -5,8 +5,8 @@ Course project topic: 						Working with Text Files
 Group name: 							PI-20V
 Surname and initials of the student: 				Doroshenko V.V.
 Surname and initials of the head of the course project: 	Grishchenko D.A.
+								Artemenko O.G.
 City and year of creation: 					Donetsk 2021
 ===================================================================================================================
-
 Press Tab to change language
 Press Enter to continue
