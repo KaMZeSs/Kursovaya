@@ -8,5 +8,6 @@
 #include <algorithm>
 #include <ctime>
 #include <clocale>
+#include <sstream>
 
 using namespace std;

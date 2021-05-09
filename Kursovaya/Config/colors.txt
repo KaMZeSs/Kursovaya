@@ -7,4 +7,4 @@
 6 желтый			yellow
 7 белый				white
 8 серый				grey
-9 светло-синий		light blue
+9 светло-синий			light blue

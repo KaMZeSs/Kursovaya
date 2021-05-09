@@ -10,8 +10,8 @@ void Program::Error()
 
 Program::Program()
 {
-	size_t HashOfMainData = 4169405112;
-	size_t HashOfColors = 142957391;
+	size_t HashOfMainData = 2461716832;
+	size_t HashOfColors = 1587617138;
 	Color = "7";
 	ifstream Doc("Config/MainData.txt");
 	string str;
@@ -34,6 +34,7 @@ Program::Program()
 			checkerString += str;
 		Config.push_back(str);
 	}
+	size_t w = checkerHash(checkerString);
 	if (checkerHash(checkerString) != HashOfMainData)
 	{
 		cout << "Error" << endl;
@@ -59,7 +60,7 @@ Program::Program()
 			checkerString += str;
 		Colors.push_back(str);
 	}
-	if (HashOfColors == checkerHash(checkerString)) Error();
+	if (HashOfColors != checkerHash(checkerString)) Error();
 
 	if (!OpenSaveFile()) SetUser();
 	else (*this) << Color.c_str()[0];
@@ -103,6 +104,7 @@ string Program::GetMenu(int line)
 void Program::operator ++ (int)
 {
 	int changer = 9;
+	size_t  HashList, HashErr, HashFirst, HashMenu, HashOther;
 	int *Err, *Front;
 	string str;
 	ifstream Doc;
@@ -125,16 +127,24 @@ void Program::operator ++ (int)
 
 	if (changer == 9)
 	{
-
+		HashList = 3143040911;
+		HashErr = 4078408421;
+		HashFirst = 289175651;
+		HashMenu = 1977010560;
+		HashOther = 1096965709;
 	}
 	else
 	{
-		
+		HashList = 3698891209;
+		HashErr = 628503690;
+		HashFirst = 53292651;
+		HashMenu = 1034719827;
+		HashOther = 3162582093;
 	}
-
+	checkerString.clear();
 	Doc.open(Config[changer]);
 	if (!Doc.is_open()) Error();
-	for (int i = 0; !Doc.eof(), i < 4; i++)
+	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
 		if (str.length() == 0)
@@ -144,45 +154,69 @@ void Program::operator ++ (int)
 		ListLocalisation.push_back(str);
 	}
 	Doc.close();
+	if (HashList != checkerHash(checkerString)) Error();
+	checkerString.clear();
 
 	Doc.open(ListLocalisation[0].c_str());					//Ошибки
 	if (!Doc.is_open()) Error();
 	for (int i = 0; !Doc.eof(), i < 7; i++)
 	{
 		getline(Doc, str);
-		int len = str.length();
+		if (str.length() == 0)
+			checkerString += " ";
+		else
+			checkerString += str;
 		Errors.push_back(str);
 	}
 	Doc.close();
+	if (HashErr != checkerHash(checkerString)) Error();
+	checkerString.clear();
 
 	Doc.open(ListLocalisation[1].c_str());					//Титульная страница
 	if (!Doc.is_open()) Error();
 	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
-		int len = str.length();
+		if (str.length() == 0)
+			checkerString += " ";
+		else
+			checkerString += str;
 		Front_page.push_back(str);
 	}
 	Doc.close();
+	if (HashFirst != checkerHash(checkerString)) Error();
+	checkerString.clear();
 
 	Doc.open(ListLocalisation[2].c_str());					//Меню
 	if (!Doc.is_open()) Error();
 	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
-		int len = str.length();
+		if (str.length() == 0)
+			checkerString += " ";
+		else
+			checkerString += str;
 		Menu.push_back(str);
 	}
 	Doc.close();
+	size_t t = checkerHash(checkerString);
+	if (HashMenu != checkerHash(checkerString)) Error();
+	checkerString.clear();
 
 	Doc.open(ListLocalisation[3].c_str());					//Другое
 	if (!Doc.is_open()) Error();
 	for (int i = 0; !Doc.eof(); i++)
 	{
 		getline(Doc, str);
+		if (str.length() == 0)
+			checkerString += " ";
+		else
+			checkerString += str;
 		Other.push_back(str);
 	}
 	Doc.close();
+	if (HashOther != checkerHash(checkerString)) Error();
+	checkerString.clear();
 }
 
 ostream& operator << (ostream & out, Program & App)
@@ -815,22 +849,34 @@ bool Program::CreateSaveFile()
 		}
 	}
 
-	int lenChecker = 0;
-	int heightChecker = 0;
-
+	string checker;
 	for (int i = 0; i < Save.size(); i++)
 	{
-		lenChecker += Save[i].length();
-		heightChecker++;
+		checker += Save[i];
 	}
 
-	Save.insert(Save.begin(), to_string(heightChecker));
-	Save.insert(Save.begin(), to_string(lenChecker));
+	hash<string> s;
 
-	remove(Config[18].c_str());
+	Save.insert(Save.begin(), to_string(s(checker)));
+
+	/*remove(Config[18].c_str());
 
 	ofstream Doc(Config[18]);
 
+	if (!Doc.is_open()) return false;
+	for (int i = 0; i < Save.size(); i++)
+	{
+		Doc << Save[i] << endl;
+	}
+	return true;*/
+
+	string Path;
+	ifstream Doc1(Config[0]);
+	getline(Doc1, Path);
+	Doc1.close();
+	remove(Path.c_str());
+
+	ofstream Doc(Path);
 	if (!Doc.is_open()) return false;
 	for (int i = 0; i < Save.size(); i++)
 	{
@@ -841,36 +887,37 @@ bool Program::CreateSaveFile()
 
 bool Program::OpenSaveFile()
 {
+	ifstream F(Config[0]);
+	string Path;
+	getline(F, Path);
+
 	string lineBetweenSame = Config[16];
 	string lineBetweenDiff = Config[17];
 
 	vector<string> Save;
 
-	ifstream Doc(Config[18]);
+	ifstream Doc(Path);
 	string str;
-	int SizeOfFile, HeightOfFile;
 	if (!Doc.is_open()) return false;
 	string s;
 	getline(Doc, s);
-	SizeOfFile = atoi(s.c_str());
-	getline(Doc, s);
-	HeightOfFile = atoi(s.c_str());
-	int lenChecker = 0;
-	int heightChecker = 0;
+	hash<string> HashChecker;
+	stringstream srq(s);
+	size_t HashCheck;
+	srq >> HashCheck;
+	string HashStr;
 	while (!Doc.eof())
 	{
 		s.clear();
 		getline(Doc, s);
-		lenChecker += s.length();
-		heightChecker++;
+		HashStr += s;
 	}
 	Doc.close();
 
-	if (lenChecker != SizeOfFile || heightChecker != HeightOfFile + 1) return false;
+	if (HashChecker(HashStr) != HashCheck) return false;
 
-	Doc.open(Config[18]);
+	Doc.open(Path);
 	if (!Doc.is_open()) return false;
-	getline(Doc, s);
 	getline(Doc, s);
 	s.clear();
 	getline(Doc, local);
@@ -1379,7 +1426,7 @@ bool Program::ListAllInFile()
 
 	remove(str.c_str());
 
-	ofstream SaveFile(str);
+	ofstream SaveFile(Config[18]);
 	if (!SaveFile.is_open()) return false;
 	for (int i = 0; i < Save.size(); i++)
 	{

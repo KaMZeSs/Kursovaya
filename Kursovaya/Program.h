@@ -13,7 +13,7 @@ private:
 	vector<string> Config;
 	vector<string> ListLocalisation;
 	vector<string> Errors;
-	vector<string> Menu; 
+	vector<string> Menu;
 	vector<string> Other;
 	vector<string> Colors;
 	vector<Document> Documents;
