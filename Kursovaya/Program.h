@@ -20,6 +20,7 @@ private:
 	vector<Image> Images;
 	vector<Table> Tables;
 public:
+	static int counter;
 	Program();
 	~Program();
 	string GetConfig(int);

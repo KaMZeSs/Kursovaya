@@ -3,6 +3,10 @@
 #include "Image.h"
 #include "Program.h"
 
+
+int Program::counter = 0;
+
+
 int main()
 {
 	SetConsoleCP(1251);

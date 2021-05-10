@@ -10,6 +10,7 @@ void Program::Error()
 
 Program::Program()
 {
+	counter++;
 	size_t HashOfMainData = 2461716832;
 	size_t HashOfColors = 1587617138;
 	Color = "7";
@@ -69,7 +70,7 @@ Program::Program()
 
 Program::~Program()
 {
-
+	counter--;
 }
 
 string Program::GetConfig(int num)
@@ -1364,7 +1365,7 @@ bool Program::ListAllInFile()
 
 	Save.clear();
 	Save.push_back(Other[39]);
-	Save.push_back(Other[40] + to_string(1));
+	Save.push_back(Other[40] + to_string(counter));
 	Save.push_back(Other[41] + local);
 	Save.push_back(Other[42] + User);
 	Save.push_back(Other[43] + Color);
