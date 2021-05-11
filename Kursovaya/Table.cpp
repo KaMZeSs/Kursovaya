@@ -157,6 +157,7 @@ void Table::SetMax()
 		if (len > MaxInCol[j]) MaxInCol[j] = len;
 		if (j == NumOfColumns - 1) j = -1;
 	}
+	Size = TableContent.size();
 }
 
 vector<int> Table::GetMaxInCol()

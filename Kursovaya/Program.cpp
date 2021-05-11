@@ -64,7 +64,7 @@ Program::Program()
 	if (HashOfColors != checkerHash(checkerString)) Error();
 
 	if (!OpenSaveFile()) SetUser();
-	else (*this) << Color.c_str()[0];
+	else (*this) * Color.c_str()[0];
 	(*this)++; (*this)++;
 }
 
@@ -238,7 +238,7 @@ ostream& operator << (ostream & out, Program & App)
 	return out;
 }
 
-void operator << (Program & Pr, char a)
+void operator * (Program & Pr, char a)
 {
 	string str = Pr.GetConfig(14);
 	str += 32;
@@ -438,6 +438,8 @@ void Program::ListDocs()
 		cout << Other[10] << Documents[i].GetOwner() << endl;
 		cout << Other[11] << Documents[i].GetDate() << endl;
 		cout << Other[12] << Documents[i].GetFileSize() << endl;
+		cout << Other[12] << Documents[i].GetSize() << endl;
+		cout << Other[17] << Documents[i].GetNumOfColumns() << endl;
 		cout << Other[13] << Documents[i].GetFont() << endl;
 		cout << Other[14] << Documents[i].GetColor() << endl;
 	}
@@ -961,7 +963,7 @@ bool Program::OpenSaveFile()
 			temp = atoi(NumOfCol.c_str());
 			if (temp == 0) temp = 3;
 			T.SetNumOfColumns(temp);
-			if (T.ReadFromFile(Config[1]) == 0)	Documents.push_back(T);
+			if (T.ReadFromFile(Config[1]) == 0) Documents.push_back(T);
 
 			if (line == lineBetweenDiff)
 			{
@@ -990,7 +992,6 @@ bool Program::OpenSaveFile()
 			T.ReadFromFile(Config[2]);
 			T.SetDimensions();
 			Images.push_back(T);
-			T.~Image();
 
 			if (line == lineBetweenDiff)
 			{
@@ -1021,7 +1022,6 @@ bool Program::OpenSaveFile()
 			T.ReadFromFile(Config[3]);
 			T.SetMax();
 			Tables.push_back(T);
-			T.~Table();
 
 			if (line == lineBetweenDiff)
 			{
@@ -1060,7 +1060,7 @@ void Program::Options()
 					cout << Errors[5];
 				}
 			}
-			(*this) << color;
+			(*this) * color;
 			Color = color;
 			color = 0;
 			break;
@@ -1385,6 +1385,8 @@ bool Program::ListAllInFile()
 			Save.push_back(Other[11] + Documents[i].GetDate());
 			Save.push_back(Other[12] + to_string(Documents[i].GetFileSize()));
 			Save.push_back(Other[13] + to_string(Documents[i].GetFont()));
+			Save.push_back(Other[12] + to_string(Documents[i].GetSize()));
+			Save.push_back(Other[17] + to_string(Documents[i].GetNumOfColumns()));
 			Save.push_back(Other[14] + Documents[i].GetColor());
 			Save.push_back(Config[16]);
 		}

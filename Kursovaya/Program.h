@@ -46,5 +46,5 @@ public:
 	vector<string> GetListColors();
 	void operator ++ (int);
 	friend ostream& operator << (ostream &, Program &);
-	friend void operator << (Program&, char); // смена цвета
+	friend void operator * (Program&, char); // смена цвета
 };

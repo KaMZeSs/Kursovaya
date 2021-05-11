@@ -112,12 +112,13 @@ int Document::ReadFromFile(string Path)
 		Content.push_back(str);
 		length += Content.back().length();
 	}
-	File::Size = length;
+	File::Size = length; Table::Size = 0;
 	while (!Doc.eof())
 	{
 		str.clear();
 		getline(Doc, str);
 		TableContent.push_back(str);
+		Table::Size++;
 	}
 	return checker;
 }
