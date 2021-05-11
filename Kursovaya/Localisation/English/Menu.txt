@@ -4,9 +4,9 @@ Main menu
 3. List of documents.
 4. Open a document or image in preview mode.
 5. Remove file.
-6. Project task.
-7. About the program.
-8. Operator's manual.
+6. About the program.
+7. Operator's manual.
+8. 
 1. Create a new document.
 2. Create a new image.
 3. Create a new table.
@@ -19,7 +19,7 @@ Press S to create a system state file.
 Enter the file name: 
 Enter your name: 
 Press any button to continue.
-9. About the author.
+8. About the author.
 1. Remove document.
 2. Remove image.
 3. Remove table.
@@ -41,3 +41,7 @@ Press p to display additional options.
 1. Shade the bottom line of the document.
 2. Paint over the edges of the image.
 Failed to create file.
+About.txt
+Manual.txt
+Author.txt
+The file is not open.

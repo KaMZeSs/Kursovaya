@@ -131,7 +131,7 @@ void Program::operator ++ (int)
 		HashList = 3143040911;
 		HashErr = 4078408421;
 		HashFirst = 289175651;
-		HashMenu = 1977010560;
+		HashMenu = 530801893;
 		HashOther = 1096965709;
 	}
 	else
@@ -139,7 +139,7 @@ void Program::operator ++ (int)
 		HashList = 3698891209;
 		HashErr = 628503690;
 		HashFirst = 53292651;
-		HashMenu = 1034719827;
+		HashMenu = 2776682271;
 		HashOther = 3162582093;
 	}
 	checkerString.clear();
@@ -200,7 +200,7 @@ void Program::operator ++ (int)
 		Menu.push_back(str);
 	}
 	Doc.close();
-	size_t t = checkerHash(checkerString);
+	size_t w = checkerHash(checkerString);
 	if (HashMenu != checkerHash(checkerString)) Error();
 	checkerString.clear();
 

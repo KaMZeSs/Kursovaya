@@ -21,9 +21,11 @@ int main()
 
 	for (char key = 0; key != 27;)
 	{
+		ifstream Doc;
+		string str;
 		App.CreateSaveFile();
 		system("cls");
-		App.ViewMenu(1, 8);
+		App.ViewMenu(1, 7);
 		cout << App.GetMenu(21) << endl << endl << App.GetMenu(35) << endl << App.GetMenu(28) << endl << App.GetMenu(15) << endl << App.GetMenu(17) << endl;
 		key = _getch();
 		switch (tolower(key))
@@ -47,10 +49,22 @@ int main()
 			App.RemoveFile();
 			break;
 		case '6':
+			Doc.open(App.GetMenu(43));
+			if (!Doc.is_open()) { cout << App.GetMenu(46); _getch(); }
+			else system(App.GetMenu(43).c_str());
+			Doc.close();
 			break;
 		case '7':
+			Doc.open(App.GetMenu(44));
+			if (!Doc.is_open()) { cout << App.GetMenu(46); _getch(); }
+			else system(App.GetMenu(44).c_str());
+			Doc.close();
 			break;
 		case '8':
+			Doc.open(App.GetMenu(45));
+			if (!Doc.is_open()) { cout << App.GetMenu(46); _getch(); }
+			else system(App.GetMenu(45).c_str());
+			Doc.close();
 			break;
 		case 'o':
 			App.Options();
