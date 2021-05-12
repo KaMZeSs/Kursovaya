@@ -51,7 +51,7 @@ void File::Write()
 		if (key == 60) continue;
 		if (key == 8)
 		{
-			if (Content.front().length() == 0) continue;
+			if (Content.front().length() == 0 && Content.size() == 1) continue;
 			if (Content.back().length() == 0) Content.pop_back();
 			else Content.back().erase(Content.back().size() - 1);
 			system("cls");

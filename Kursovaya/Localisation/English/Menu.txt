@@ -45,3 +45,4 @@ About.txt
 Manual.txt
 Author.txt
 The file is not open.
+Note. In view mode, the table is not visible due to architectural restrictions.

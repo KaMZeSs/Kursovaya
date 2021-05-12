@@ -16,7 +16,7 @@ public:
 	string GetColor();
 	int GetFont();
 	bool SetFontSize(int);
-	virtual int ReadFromFile(string);
+	int ReadFromFile(string);
 	bool Update(string);
 	virtual vector<string> Read();
 	friend bool operator + (Document&, Document&); // Оставить таблицу первого

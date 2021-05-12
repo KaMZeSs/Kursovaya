@@ -13,7 +13,7 @@ public:
 	File();
 	File(long Size, string Date, string Owner);
 	virtual vector<string> Read() = 0;
-	virtual int ReadFromFile(string);
+	int ReadFromFile(string);
 	void Write(string buffer);
 	void Write();
 	bool Update(string);

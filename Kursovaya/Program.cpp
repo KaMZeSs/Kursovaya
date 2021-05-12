@@ -131,7 +131,7 @@ void Program::operator ++ (int)
 		HashList = 3143040911;
 		HashErr = 4078408421;
 		HashFirst = 289175651;
-		HashMenu = 530801893;
+		HashMenu = 2741275085;
 		HashOther = 1096965709;
 	}
 	else
@@ -139,7 +139,7 @@ void Program::operator ++ (int)
 		HashList = 3698891209;
 		HashErr = 628503690;
 		HashFirst = 53292651;
-		HashMenu = 2776682271;
+		HashMenu = 3064600237;
 		HashOther = 3162582093;
 	}
 	checkerString.clear();
@@ -479,6 +479,7 @@ void Program::ReadDocImg()
 	{
 		system("cls");
 		int counter = 0;
+		cout << Menu[47] << endl << endl;
 		cout << Other[3] << endl;
 		for (int i = 0, max = Documents.size(); i < max; i++, counter++)
 		{
@@ -862,17 +863,6 @@ bool Program::CreateSaveFile()
 
 	Save.insert(Save.begin(), to_string(s(checker)));
 
-	/*remove(Config[18].c_str());
-
-	ofstream Doc(Config[18]);
-
-	if (!Doc.is_open()) return false;
-	for (int i = 0; i < Save.size(); i++)
-	{
-		Doc << Save[i] << endl;
-	}
-	return true;*/
-
 	string Path;
 	ifstream Doc1(Config[0]);
 	getline(Doc1, Path);
@@ -1065,13 +1055,31 @@ void Program::Options()
 			color = 0;
 			break;
 		case '2':
+			vector<string> checker;
+			checker.push_back(Config[0]); checker.push_back(Config[9]); 
+			checker.push_back(Config[10]); checker.push_back(Config[15]);
+			checker.push_back(Config[18]); checker.push_back("Config/MainData.txt");
+			checker.push_back(ListLocalisation[0]); checker.push_back(ListLocalisation[1]);
+			checker.push_back(ListLocalisation[2]); checker.push_back(ListLocalisation[3]);
+			(*this)++;
+			checker.push_back(ListLocalisation[0]); checker.push_back(ListLocalisation[1]);
+			checker.push_back(ListLocalisation[2]); checker.push_back(ListLocalisation[3]);
+			(*this)++;
 			system("cls");
 			cout << Menu[31];
 			string str;
 			bool exp = true;
 			while (exp)
 			{
+				bool found = false;
 				cin >> str;
+				for (int i = 0; i < checker.size(); i++)
+					if (checker[i].find(str) != string::npos)
+					{
+						found = true;
+						break;
+					}
+				if (found) { cout << Errors[6] << endl << Errors[5]; cin.clear(); continue; }
 				ofstream Doc(str);
 				if (Doc.is_open()) exp = false;
 				else Doc.close();
@@ -1080,6 +1088,8 @@ void Program::Options()
 			remove(Config[0].c_str());
 			ofstream Doc(Config[0]);
 			Doc << str;
+			Doc.close();
+			this->CreateSaveFile();
 			break;
 		}
 	}
